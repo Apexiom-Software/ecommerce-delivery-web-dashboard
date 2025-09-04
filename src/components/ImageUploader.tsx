@@ -1,6 +1,7 @@
 // src/components/ImageUploader.tsx
 import React, { useRef, useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface ImageUploaderProps {
   onImageSelected: (imageUri: string | null) => void;
@@ -19,6 +20,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
   initialImage,
   removable = true,
 }) => {
+  const { t } = useTranslation();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -45,13 +47,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
 
     // type
     if (!allowedTypes.includes(file.type)) {
-      setError("Unsupported file type. Please use JPEG, PNG, GIF or WebP.");
+      setError(t("imageUploader.errors.unsupportedType"));
       return;
     }
 
     // size
     if (file.size > maxSize * 1024 * 1024) {
-      setError(`File is too large. Maximum size: ${maxSize}MB.`);
+      setError(t("imageUploader.errors.fileTooLarge", { maxSize }));
       return;
     }
 
@@ -121,7 +123,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
         >
           <img
             src={imagePreview}
-            alt="Preview"
+            alt={t("imageUploader.previewAlt")}
             className="w-full h-64 object-cover rounded-lg shadow-md"
           />
           {removable && (
@@ -129,6 +131,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               <button
                 onClick={handleRemoveImage}
                 className="opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 bg-red-500 text-white p-2 rounded-full shadow-lg transition-all duration-300"
+                aria-label={t("imageUploader.removeImage")}
               >
                 <svg
                   className="w-6 h-6"
@@ -178,11 +181,13 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
               />
             </svg>
             <div className="text-gray-600">
-              <p className="font-medium text-indigo-600">Upload an image</p>
-              <p className="text-sm">or drag and drop</p>
+              <p className="font-medium text-indigo-600">
+                {t("imageUploader.uploadTitle")}
+              </p>
+              <p className="text-sm">{t("imageUploader.dragAndDrop")}</p>
             </div>
             <p className="text-xs text-gray-500">
-              PNG, JPG, GIF up to {maxSize}MB
+              {t("imageUploader.fileTypes", { maxSize })}
             </p>
           </div>
         </motion.div>

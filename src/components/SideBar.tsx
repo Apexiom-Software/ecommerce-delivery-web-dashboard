@@ -6,7 +6,6 @@ import {
   FaPlusCircle,
   FaTimes,
   FaList,
-  FaHome,
   FaChartBar,
   FaCog,
   FaUser,
@@ -188,7 +187,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
   return (
     <>
-      {/* Overlay pour mobile seulement */}
       <AnimatePresence>
         {isOpen && !isDesktop && (
           <motion.div
@@ -201,57 +199,41 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         )}
       </AnimatePresence>
 
-      {/* Sidebar */}
       <motion.div
         initial={false}
         animate={getAnimationState()}
         variants={sidebarVariants}
-        className="fixed lg:static top-0 left-0 h-screen w-64 bg-gradient-to-b from-indigo-800 to-purple-900 text-white shadow-xl z-50 overflow-hidden flex flex-col"
+        className="fixed lg:static top-0 left-0 h-screen w-64 text-white bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-y-auto lg:overflow-hidden flex flex-col"
       >
-        {/* Header avec bouton toggle */}
-        <div className="flex-shrink-0 flex items-center justify-between p-4 border-b border-purple-700">
+      
+        <div className="flex-shrink-0 flex items-center justify-between p-4 border-b border-orange-400">
           <motion.div
             variants={itemVariants}
             className="flex items-center space-x-2"
           >
-            <FaBoxOpen className="text-2xl text-yellow-400" />
+            <FaBoxOpen className="text-2xl text-white" />
             <span className="font-bold text-xl whitespace-nowrap">
-              ProductHub
+              Moe's PIZZA
             </span>
           </motion.div>
 
           <motion.button
             variants={itemVariants}
             onClick={toggleSidebar}
-            className="p-1 rounded-lg hover:bg-purple-700 transition-colors lg:hidden"
+            className="p-1 rounded-lg hover:bg-orange-400 transition-colors lg:hidden"
           >
             <FaTimes className="text-xl" />
           </motion.button>
         </div>
 
-        {/* Menu items avec défilement automatique */}
         <div className="flex-1 overflow-y-auto p-4 space-y-2">
-          {/* Accueil */}
-          <motion.div variants={itemVariants}>
-            <a
-              href="#"
-              className="flex items-center p-3 rounded-lg hover:bg-purple-700 transition-colors group"
-            >
-              <FaHome className="text-xl mr-3 text-purple-300 group-hover:text-white" />
-              <span className="whitespace-nowrap">
-                {t("sidebar.dashboard")}
-              </span>
-            </a>
-          </motion.div>
-
-          {/* Manage Products */}
           <motion.div variants={itemVariants}>
             <button
               onClick={toggleManageProducts}
-              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-purple-700 transition-colors group"
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400 transition-colors group"
             >
               <div className="flex items-center">
-                <FaBox className="text-xl mr-3 text-blue-300 group-hover:text-white" />
+                <FaBox className="text-xl mr-3 text-white" />
                 <span className="whitespace-nowrap">
                   {t("sidebar.manageProducts")}
                 </span>
@@ -261,7 +243,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 transition={{ duration: 0.3 }}
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -277,7 +259,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               </motion.div>
             </button>
 
-            {/* Sous-éléments */}
             <AnimatePresence>
               {manageProductsOpen && (
                 <motion.div
@@ -285,15 +266,18 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                   animate="open"
                   exit="closed"
                   variants={containerVariants}
-                  className="ml-6 mt-1 space-y-1 border-l-2 border-purple-600 pl-2"
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
                 >
                   <motion.div variants={subItemVariants}>
                     <a
-                      href="#"
-                      className="flex items-center p-2 rounded-lg hover:bg-purple-700 transition-colors group"
+                      href="/create-product"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
                     >
-                      <FaPlusCircle className="text-lg mr-3 text-green-300 group-hover:text-white" />
-                      <span className="whitespace-nowrap">
+                      <FaPlusCircle className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/create-product")}
+                      >
                         {t("sidebar.addProduct")}
                       </span>
                     </a>
@@ -301,11 +285,14 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
                   <motion.div variants={subItemVariants}>
                     <a
-                      href="#"
-                      className="flex items-center p-2 rounded-lg hover:bg-purple-700 transition-colors group"
+                      href="/products"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
                     >
-                      <FaList className="text-lg mr-3 text-yellow-300 group-hover:text-white" />
-                      <span className="whitespace-nowrap">
+                      <FaList className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/products")}
+                      >
                         {t("sidebar.productsList")}
                       </span>
                     </a>
@@ -315,27 +302,28 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             </AnimatePresence>
           </motion.div>
 
-          {/* Analytics */}
           <motion.div variants={itemVariants}>
             <a
-              href="#"
-              className="flex items-center p-3 rounded-lg hover:bg-purple-700 transition-colors group"
+              href="/analytics"
+              className="flex items-center p-3 rounded-lg hover:bg-orange-400 transition-colors group"
             >
-              <FaChartBar className="text-xl mr-3 text-teal-300 group-hover:text-white" />
-              <span className="whitespace-nowrap">
+              <FaChartBar className="text-xl mr-3 text-white" />
+              <span
+                className="whitespace-nowrap"
+                onClick={() => navigate("/analytics")}
+              >
                 {t("sidebar.analytics")}
               </span>
             </a>
           </motion.div>
 
-          {/* Settings avec sous-menu Langue */}
           <motion.div variants={itemVariants}>
             <button
               onClick={toggleSettings}
-              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-purple-700 transition-colors group"
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400 transition-colors group"
             >
               <div className="flex items-center">
-                <FaCog className="text-xl mr-3 text-gray-300 group-hover:text-white" />
+                <FaCog className="text-xl mr-3 text-white" />
                 <span className="whitespace-nowrap">
                   {t("sidebar.settings")}
                 </span>
@@ -345,7 +333,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 transition={{ duration: 0.3 }}
               >
                 <svg
-                  className="w-4 h-4"
+                  className="w-4 h-4 text-white"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -361,7 +349,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               </motion.div>
             </button>
 
-            {/* Sous-éléments Settings */}
             <AnimatePresence>
               {settingsOpen && (
                 <motion.div
@@ -369,36 +356,34 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                   animate="open"
                   exit="closed"
                   variants={containerVariants}
-                  className="ml-6 mt-1 space-y-1 border-l-2 border-purple-600 pl-2"
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
                 >
-                  {/* Language Selector */}
                   <motion.div variants={subItemVariants} className="space-y-1">
                     <div className="flex items-center p-2 rounded-lg group">
-                      <FaGlobe className="text-lg mr-3 text-blue-300" />
+                      <FaGlobe className="text-lg mr-3 text-white" />
                       <span className="whitespace-nowrap font-medium">
                         {t("sidebar.language")}
                       </span>
                     </div>
 
-                    {/* Options de langue */}
                     <div className="ml-6 space-y-1">
                       <button
                         onClick={() => changeLanguage("en")}
                         className={`flex items-center w-full p-2 rounded-lg transition-colors group ${
                           i18n.language === "en"
-                            ? "bg-purple-600 text-white"
-                            : "hover:bg-purple-700"
+                            ? "bg-white bg-opacity-20 text-white"
+                            : "hover:bg-orange-400"
                         }`}
                       >
                         <div
                           className={`w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center ${
                             i18n.language === "en"
                               ? "border-white bg-white"
-                              : "border-purple-300 group-hover:border-white"
+                              : "border-white border-opacity-50 group-hover:border-white"
                           }`}
                         >
                           {i18n.language === "en" && (
-                            <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                            <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                           )}
                         </div>
                         <span>English</span>
@@ -408,19 +393,19 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         onClick={() => changeLanguage("de")}
                         className={`flex items-center w-full p-2 rounded-lg transition-colors group ${
                           i18n.language === "de"
-                            ? "bg-purple-600 text-white"
-                            : "hover:bg-purple-700"
+                            ? "bg-white bg-opacity-20 text-white"
+                            : "hover:bg-orange-400"
                         }`}
                       >
                         <div
                           className={`w-4 h-4 rounded-full border-2 mr-2 flex items-center justify-center ${
                             i18n.language === "de"
                               ? "border-white bg-white"
-                              : "border-purple-300 group-hover:border-white"
+                              : "border-white border-opacity-50 group-hover:border-white"
                           }`}
                         >
                           {i18n.language === "de" && (
-                            <div className="w-2 h-2 rounded-full bg-purple-600"></div>
+                            <div className="w-2 h-2 rounded-full bg-orange-500"></div>
                           )}
                         </div>
                         <span>Deutsch</span>
@@ -432,26 +417,29 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             </AnimatePresence>
           </motion.div>
 
-          {/* Profile */}
           <motion.div variants={itemVariants}>
             <a
-              href="#"
-              className="flex items-center p-3 rounded-lg hover:bg-purple-700 transition-colors group"
+              href="/profile"
+              className="flex items-center p-3 rounded-lg hover:bg-orange-400 transition-colors group"
             >
-              <FaUser className="text-xl mr-3 text-pink-300 group-hover:text-white" />
-              <span className="whitespace-nowrap">{t("sidebar.profile")}</span>
+              <FaUser className="text-xl mr-3 text-white" />
+              <span
+                className="whitespace-nowrap"
+                onClick={() => navigate("/profile")}
+              >
+                {t("sidebar.profile")}
+              </span>
             </a>
           </motion.div>
         </div>
 
-        {/* Logout - toujours en bas */}
-        <div className="flex-shrink-0 border-t border-purple-700 p-4">
+        <div className="flex-shrink-0 border-t border-orange-400 p-4">
           <motion.div variants={itemVariants}>
             <button
               onClick={handleLogout}
-              className="flex items-center p-3 rounded-lg hover:bg-purple-700 transition-colors group w-full text-left"
+              className="flex items-center p-3 rounded-lg hover:bg-orange-400 transition-colors group w-full text-left"
             >
-              <FaSignOutAlt className="text-xl mr-3 text-red-300 group-hover:text-white" />
+              <FaSignOutAlt className="text-xl mr-3 text-white" />
               <span className="whitespace-nowrap">{t("sidebar.logout")}</span>
             </button>
           </motion.div>

@@ -7,7 +7,6 @@ import { initI18n } from "./app/i18n/i18n";
 import "./index.css";
 import App from "./App.tsx";
 
-// Initialisez i18n avant de rendre l'application
 initI18n().then(() => {
   createRoot(document.getElementById("root")!).render(
     <StrictMode>

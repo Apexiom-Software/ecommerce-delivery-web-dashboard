@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ProductService } from "../services/productService";
 import type { Product } from "../services/productService";
 import ProductCard from "./ProductCard";
+import { useTranslation } from "react-i18next";
 
 interface SearchProps {
   onBack: () => void;
@@ -16,6 +17,7 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
   const [error, setError] = useState("");
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchTopProducts = async () => {
@@ -25,14 +27,14 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
         setProducts(response.content);
         setTotalPages(Math.ceil(response.totalElements / PAGE_SIZE));
       } catch {
-        setError("Failed to fetch products");
+        setError(t("screens.search.error"));
       } finally {
         setLoading(false);
       }
     };
 
     fetchTopProducts();
-  }, []);
+  }, [t]);
 
   useEffect(() => {
     const delayDebounce = setTimeout(() => {
@@ -56,7 +58,7 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
             setTotalPages(Math.ceil(response.totalElements / PAGE_SIZE));
           }
         } catch {
-          setError("Failed to fetch products");
+          setError(t("screens.search.error"));
         } finally {
           setLoading(false);
         }
@@ -66,14 +68,14 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
     }, 1000);
 
     return () => clearTimeout(delayDebounce);
-  }, [searchText, page]);
+  }, [searchText, page, t]);
 
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex justify-center items-center">
         <div className="flex flex-col items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500 mb-4"></div>
-          <p className="text-gray-600">Searching products...</p>
+          <p className="text-gray-600">{t("screens.search.loading")}</p>
         </div>
       </div>
     );
@@ -89,11 +91,11 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Search Section */}
       <div className="pt-6 px-4 flex justify-between items-center">
         <button
           onClick={onBack}
-          className="mr-2 bg-black rounded-xl p-3 w-12 h-14 flex justify-center items-center"
+          className="mr-2 bg-blue-600 rounded-xl p-3 w-12 h-12 flex justify-center items-center"
+          aria-label={t("screens.allProducts.backA11yLabel")}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -131,26 +133,31 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
                 type="text"
                 value={searchText}
                 onChange={(e) => setSearchText(e.target.value)}
-                placeholder="Search products..."
+                placeholder={t("screens.search.searchPlaceholder")}
                 className="text-gray-500 px-2 flex-1 outline-none"
                 autoFocus
+                aria-label={t("screens.allProducts.searchA11yLabel")}
+                aria-describedby={t("screens.allProducts.searchA11yHint")}
               />
             </div>
           </div>
         </div>
       </div>
 
-      {/* Results Section */}
       <div className="px-4 pt-6 flex justify-between items-center">
         <h2 className="text-base font-semibold text-gray-600">
-          {searchText ? `Results for "${searchText}"` : "Recommended Products"}
+          {searchText
+            ? t("screens.search.resultsFor", { query: searchText })
+            : t("screens.search.recommendedProducts")}
         </h2>
         <span className="text-xs text-gray-500">
-          {products.length} {products.length === 1 ? "product" : "products"}
+          {products.length}{" "}
+          {products.length === 1
+            ? t("screens.search.product")
+            : t("screens.search.products")}
         </span>
       </div>
 
-      {/* Products List - Responsive */}
       <div className="px-3 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 pb-10">
         {products.length > 0 ? (
           products.map((product) => (
@@ -160,14 +167,13 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
           <div className="col-span-2 md:col-span-3 lg:col-span-4 flex justify-center items-center p-5">
             <p className="text-red-500 text-center">
               {searchText
-                ? `No results found for "${searchText}"`
-                : "No products available"}
+                ? t("screens.search.noResults", { query: searchText })
+                : t("screens.search.noProducts")}
             </p>
           </div>
         )}
       </div>
 
-      {/* Pagination - Identique à ListProducts.tsx */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center mt-8 space-x-2 pb-10">
           <button
@@ -175,12 +181,12 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
             onClick={() => setPage(page - 1)}
             className="px-3 py-1.5 bg-white border border-gray-300 rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium"
           >
-            Prev
+            {t("screens.allProducts.paginationPrev")}
           </button>
 
           <div className="flex items-center space-x-1">
             <span className="text-xs text-gray-600">
-              Page {page + 1} of {totalPages}
+              {t("common.page")} {page + 1} {t("common.of")} {totalPages}
             </span>
           </div>
 
@@ -189,7 +195,7 @@ const Search: React.FC<SearchProps> = ({ onBack }) => {
             onClick={() => setPage(page + 1)}
             className="px-3 py-1.5 bg-white border border-gray-300 rounded text-xs disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors font-medium"
           >
-            Next
+            {t("screens.allProducts.paginationNext")}
           </button>
         </div>
       )}

@@ -1,14 +1,26 @@
 {
-   "sidebar": {
+  "sidebar": {
     "dashboard": "Dashboard",
     "manageProducts": "Manage Products",
-    "addProduct": "Add New Product",
+    "addProduct": "New Product",
     "productsList": "Products List",
     "analytics": "Analytics",
     "settings": "Settings",
     "language": "Language",
     "profile": "Profile",
     "logout": "Logout"
+  },
+
+  "imageUploader": {
+    "previewAlt": "Image preview",
+    "removeImage": "Remove image",
+    "uploadTitle": "Upload an image",
+    "dragAndDrop": "or drag and drop",
+    "fileTypes": "PNG, JPG, GIF up to {{maxSize}}MB",
+    "errors": {
+      "unsupportedType": "Unsupported file type. Please use JPEG, PNG, GIF or WebP.",
+      "fileTooLarge": "File is too large. Maximum size: {{maxSize}}MB."
+    }
   },
   "onBoarding": {
     "slide1": {
@@ -34,7 +46,8 @@
     "success": "Success",
     "of": "of",
     "page": "page",
-    "categories": "Categories"
+    "categories": "Categories",
+    "loading": "Loading..."
   },
 
   "login": {
@@ -393,6 +406,24 @@
 
   "screens": {
     "myProductDetails": {
+      "sizes":"Sizes",
+      "price": "Price",
+      "off": "off",
+      "freeItem": "Free Item",
+      "freeItemDescription": "Get a free item",
+      "fixedDiscount": "Fixed discount",
+      "percentageDiscount": "Percentage discount",
+      "promotionPeriod": "Promotion Period",
+      "from": "From",
+      "to": "To",
+      "discountDetails": "Discount Details",
+      "active": "Active",
+      "inactive": "Inactive",
+      "close": "Close",
+      "currentPromotion": "Current Promotion",
+      "seeDetails": "See Details",
+      "productDetails": "Product Details",
+      "calories": "Calories",
       "quantity": "Quantity",
       "additionalOptionsTitle": "Menu Options",
       "requiredOptions": "Required Options",
@@ -561,7 +592,9 @@
       "noProducts": "No products available",
       "loading": "Loading...",
       "error": "Failed to fetch products",
-      "resultsFor": "Results for \"{{query}}\""
+      "resultsFor": "Results for \"{{query}}\"",
+      "product": "product",
+      "products": "products"
     },
 
     "deliveryDriverScreen": {
@@ -881,6 +914,8 @@
     },
 
     "productDetails": {
+      "active": "Active",
+      "inactive": "Inactive",
       "confirmChangesTitle": "Confirm Changes",
       "confirmChangesMessage": "Are you sure you want to save these changes?",
       "cancel": "Cancel",

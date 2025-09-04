@@ -13,6 +13,8 @@ import {
 import { useTranslation } from "react-i18next";
 import ImageUploader from "../components/ImageUploader";
 import AnimatedAlert from "../components/AnimatedAlert";
+import Sidebar from "../components/SideBar";
+import { useNavigate } from "react-router-dom";
 
 interface AdditionalOption {
   id: number;
@@ -69,11 +71,19 @@ const CreateProduct: React.FC = () => {
   const [alertTitle, setAlertTitle] = useState("");
   const [alertMessage, setAlertMessage] = useState("");
   const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isCategorySelectOpen, setIsCategorySelectOpen] = useState(false);
+  const navigate = useNavigate();
 
   const ShowAlert = (title: string, message: string) => {
     setAlertTitle(title);
     setAlertMessage(message);
     setshowAlert(true);
+  };
+
+  const handleCategoryChange = (value: string) => {
+    handleFieldChange("categoryId", value);
+    setIsCategorySelectOpen(false); // Fermer le select après sélection
   };
 
   const fetchCategories = useCallback(async () => {
@@ -368,6 +378,10 @@ const CreateProduct: React.FC = () => {
         t("dashboardScreens.createProduct.success.title"),
         t("dashboardScreens.createProduct.success.message")
       );
+
+      setTimeout(() => {
+        navigate("/products");
+      }, 2000);
     } catch (error: unknown) {
       ShowAlert(
         t("dashboardScreens.createProduct.errors.saveError"),
@@ -380,538 +394,630 @@ const CreateProduct: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
-      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
-        {/* Header */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
-          <div className="flex items-center justify-between">
-            <button
-              onClick={() => window.history.back()}
-              className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 backdrop-blur-sm"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
+    <div className="min-h-screen bg-gray-50 flex-1">
+      <div className="fixed top-0 left-0 h-screen z-40 lg:z-auto">
+        <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
+      </div>
+
+      <div
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
+          sidebarOpen ? "ml-64" : "ml-0"
+        }`}
+      >
+        <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center">
+              <button
+                onClick={() => setSidebarOpen(!sidebarOpen)}
+                className="lg:hidden mr-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                aria-label={t("common.openMenu")}
               >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                />
-              </svg>
-            </button>
-            <h1 className="text-2xl font-bold text-center">
-              {t("dashboardScreens.createProduct.title")}
-            </h1>
-            <div className="w-10"></div>
-          </div>
-        </div>
-
-        <div className="p-6 overflow-y-auto max-h-[calc(100vh-150px)]">
-          {/* Product Name */}
-          <div className="mb-6 animate-fade-in">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t("dashboardScreens.createProduct.productName")} *
-            </label>
-            <input
-              type="text"
-              value={product.name}
-              onChange={(e) => handleFieldChange("name", e.target.value)}
-              className={`w-full px-4 py-3 rounded-lg border ${
-                fieldErrors.name ? "border-red-500" : "border-gray-300"
-              } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
-              placeholder={t("dashboardScreens.createProduct.productName")}
-              disabled={loading}
-            />
-            {fieldErrors.name && (
-              <p className="mt-1 text-sm text-red-600 animate-pulse">
-                {fieldErrors.name}
-              </p>
-            )}
-          </div>
-
-          {/* Include Sizes Toggle */}
-          <div className="mb-6 animate-fade-in">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700">
-                {t("dashboardScreens.createProduct.includeSizes")}
-              </label>
-              <div className="relative inline-block w-12 h-6">
-                <input
-                  type="checkbox"
-                  checked={product.includeSizes}
-                  onChange={(e) => onChange("includeSizes", e.target.checked)}
-                  className="sr-only"
-                  id="includeSizes"
-                />
-                <label
-                  htmlFor="includeSizes"
-                  className={`block w-12 h-6 rounded-full transition-all duration-300 ${
-                    product.includeSizes ? "bg-indigo-600" : "bg-gray-300"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
-                      product.includeSizes ? "translate-x-6" : ""
-                    }`}
-                  ></span>
-                </label>
-              </div>
-            </div>
-          </div>
-
-          {/* Price or Size Prices */}
-          {product.includeSizes ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 animate-fade-in">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t("dashboardScreens.createProduct.smallSizePrice")} *
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-3 text-gray-500">€</span>
-                  <input
-                    type="text"
-                    value={product.smallSizePrice}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        "smallSizePrice",
-                        e.target.value.replace(/[^0-9.]/g, "")
-                      )
-                    }
-                    className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
-                      fieldErrors.smallSizePrice
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
-                    placeholder="0.00"
-                  />
-                </div>
-                {fieldErrors.smallSizePrice && (
-                  <p className="mt-1 text-sm text-red-600 animate-pulse">
-                    {fieldErrors.smallSizePrice}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t("dashboardScreens.createProduct.mediumSizePrice")} *
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-3 text-gray-500">€</span>
-                  <input
-                    type="text"
-                    value={product.mediumSizePrice}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        "mediumSizePrice",
-                        e.target.value.replace(/[^0-9.]/g, "")
-                      )
-                    }
-                    className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
-                      fieldErrors.mediumSizePrice
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
-                    placeholder="0.00"
-                  />
-                </div>
-                {fieldErrors.mediumSizePrice && (
-                  <p className="mt-1 text-sm text-red-600 animate-pulse">
-                    {fieldErrors.mediumSizePrice}
-                  </p>
-                )}
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  {t("dashboardScreens.createProduct.largeSizePrice")} *
-                </label>
-                <div className="relative">
-                  <span className="absolute left-3 top-3 text-gray-500">€</span>
-                  <input
-                    type="text"
-                    value={product.largeSizePrice}
-                    onChange={(e) =>
-                      handleFieldChange(
-                        "largeSizePrice",
-                        e.target.value.replace(/[^0-9.]/g, "")
-                      )
-                    }
-                    className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
-                      fieldErrors.largeSizePrice
-                        ? "border-red-500"
-                        : "border-gray-300"
-                    } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
-                    placeholder="0.00"
-                  />
-                </div>
-                {fieldErrors.largeSizePrice && (
-                  <p className="mt-1 text-sm text-red-600 animate-pulse">
-                    {fieldErrors.largeSizePrice}
-                  </p>
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className="mb-6 animate-fade-in">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("dashboardScreens.createProduct.price")} *
-              </label>
-              <div className="relative">
-                <span className="absolute left-3 top-3 text-gray-500">€</span>
-                <input
-                  type="text"
-                  value={product.price}
-                  onChange={(e) =>
-                    handleFieldChange(
-                      "price",
-                      e.target.value.replace(/[^0-9.]/g, "")
-                    )
-                  }
-                  className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
-                    fieldErrors.price ? "border-red-500" : "border-gray-300"
-                  } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
-                  placeholder="0.00"
-                />
-              </div>
-              {fieldErrors.price && (
-                <p className="mt-1 text-sm text-red-600 animate-pulse">
-                  {fieldErrors.price}
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Category */}
-          <div className="mb-6 animate-fade-in">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t("dashboardScreens.createProduct.category")} *
-            </label>
-            <div
-              className={`relative rounded-lg border ${
-                fieldErrors.categoryId ? "border-red-500" : "border-gray-300"
-              } focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition-all duration-200`}
-            >
-              <select
-                value={product.categoryId}
-                onChange={(e) =>
-                  handleFieldChange("categoryId", e.target.value)
-                }
-                disabled={loading || isLoadingCategories}
-                className="w-full px-4 py-3 bg-transparent appearance-none outline-none"
-                size={categories.length > 5 ? 5 : categories.length + 1}
-                style={{
-                  overflowY: categories.length > 5 ? "auto" : "visible",
-                  maxHeight: "150px",
-                }}
-              >
-                <option value="">
-                  {t("dashboardScreens.createProduct.selectCategory")}
-                </option>
-                {categories.map((category) => (
-                  <option
-                    key={category.categoryId}
-                    value={category.categoryId?.toString()}
-                  >
-                    {category.name}
-                  </option>
-                ))}
-              </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
                 <svg
-                  className="w-4 h-4 text-gray-500"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
                   xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 text-gray-700"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M19 9l-7 7-7-7"
-                  ></path>
+                    strokeWidth={2}
+                    d="M4 6h16M4 12h16M4 18h16"
+                  />
                 </svg>
-              </div>
-            </div>
-            {fieldErrors.categoryId && (
-              <p className="mt-1 text-sm text-red-600 animate-pulse">
-                {fieldErrors.categoryId}
-              </p>
-            )}
-            {categoriesError && (
-              <button
-                onClick={retryLoadingCategories}
-                className="mt-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors duration-200 text-sm"
-              >
-                {t("dashboardScreens.createProduct.retryLoadingCategories")}
               </button>
-            )}
-          </div>
 
-          {/* Additional Options Toggle */}
-          <div className="mb-6 animate-fade-in">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700">
-                {t("dashboardScreens.createProduct.enableAdditionalOptions")}
-              </label>
-              <div className="relative inline-block w-12 h-6">
-                <input
-                  type="checkbox"
-                  checked={enableAdditionalOptions}
-                  onChange={(e) => setEnableAdditionalOptions(e.target.checked)}
-                  className="sr-only"
-                  id="additionalOptionsToggle"
-                />
-                <label
-                  htmlFor="additionalOptionsToggle"
-                  className={`block w-12 h-6 rounded-full transition-all duration-300 ${
-                    enableAdditionalOptions ? "bg-indigo-600" : "bg-gray-300"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
-                      enableAdditionalOptions ? "translate-x-6" : ""
-                    }`}
-                  ></span>
-                </label>
+              <div className="flex items-center">
+                <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] md:max-w-none mr-2">
+                  {t("dashboardScreens.createProduct.title")}
+                </h1>
               </div>
             </div>
           </div>
+        </header>
 
-          {/* Existing Additional Options */}
-          {enableAdditionalOptions && (
-            <div className="mb-6 animate-fade-in">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("dashboardScreens.createProduct.additionalOptions")}
-              </label>
-              {isLoadingOptions ? (
-                <div className="flex justify-center py-4">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
-                </div>
-              ) : existingOptions.length === 0 ? (
-                <p className="text-gray-500 italic py-2">
-                  {t("dashboardScreens.createProduct.noOptionsAvailable")}
-                </p>
-              ) : (
-                <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg p-2">
-                  <div className="grid grid-cols-1 gap-2">
-                    {existingOptions.map((option) => (
-                      <div
-                        key={option.id}
-                        onClick={() => toggleOptionSelection(option.id)}
-                        className={`p-3 rounded-md cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
-                          selectedOptionIds.includes(option.id)
-                            ? "bg-indigo-100 border-indigo-500 border"
-                            : "bg-gray-50 border border-gray-200"
+        <main className="flex-1 overflow-auto p-4 md:p-6">
+          <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden transform transition-all duration-300 hover:shadow-2xl">
+            <div className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => window.history.back()}
+                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors duration-200 backdrop-blur-sm"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                </button>
+                <h1 className="text-2xl font-bold text-center">
+                  {t("dashboardScreens.createProduct.title")}
+                </h1>
+                <div className="w-10"></div>
+              </div>
+            </div>
+
+            <div className="p-6 overflow-y-auto max-h-[calc(100vh-150px)]">
+              <div className="mb-6 animate-fade-in">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("dashboardScreens.createProduct.productName")} *
+                </label>
+                <input
+                  type="text"
+                  value={product.name}
+                  onChange={(e) => handleFieldChange("name", e.target.value)}
+                  className={`w-full px-4 py-3 rounded-lg border ${
+                    fieldErrors.name ? "border-red-500" : "border-gray-300"
+                  } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
+                  placeholder={t("dashboardScreens.createProduct.productName")}
+                  disabled={loading}
+                />
+                {fieldErrors.name && (
+                  <p className="mt-1 text-sm text-red-600 animate-pulse">
+                    {fieldErrors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className="mb-6 animate-fade-in">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {t("dashboardScreens.createProduct.includeSizes")}
+                  </label>
+                  <div className="relative inline-block w-12 h-6">
+                    <input
+                      type="checkbox"
+                      checked={product.includeSizes}
+                      onChange={(e) =>
+                        onChange("includeSizes", e.target.checked)
+                      }
+                      className="sr-only"
+                      id="includeSizes"
+                    />
+                    <label
+                      htmlFor="includeSizes"
+                      className={`block w-12 h-6 rounded-full transition-all duration-300 ${
+                        product.includeSizes ? "bg-indigo-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
+                          product.includeSizes ? "translate-x-6" : ""
                         }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <p className="font-medium">{option.name}</p>
-                            <p className="text-sm text-gray-600">
-                              €{option.unitPrice.toFixed(2)}
-                            </p>
-                          </div>
-                          {selectedOptionIds.includes(option.id) && (
-                            <svg
-                              className="w-5 h-5 text-indigo-600"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              ></path>
-                            </svg>
-                          )}
-                        </div>
-                      </div>
-                    ))}
+                      ></span>
+                    </label>
                   </div>
                 </div>
-              )}
-              {fieldErrors.additionalOptions && (
-                <p className="mt-1 text-sm text-red-600 animate-pulse">
-                  {fieldErrors.additionalOptions}
-                </p>
-              )}
-            </div>
-          )}
-
-          {/* Required Options Toggle */}
-          <div className="mb-6 animate-fade-in">
-            <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-              <label className="block text-sm font-medium text-gray-700">
-                {t("dashboardScreens.createProduct.enableRequiredOptions")}
-              </label>
-              <div className="relative inline-block w-12 h-6">
-                <input
-                  type="checkbox"
-                  checked={enableRequiredOptions}
-                  onChange={(e) => setEnableRequiredOptions(e.target.checked)}
-                  className="sr-only"
-                  id="requiredOptionsToggle"
-                />
-                <label
-                  htmlFor="requiredOptionsToggle"
-                  className={`block w-12 h-6 rounded-full transition-all duration-300 ${
-                    enableRequiredOptions ? "bg-indigo-600" : "bg-gray-300"
-                  }`}
-                >
-                  <span
-                    className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
-                      enableRequiredOptions ? "translate-x-6" : ""
-                    }`}
-                  ></span>
-                </label>
               </div>
-            </div>
-          </div>
 
-          {/* Existing Required Options */}
-          {enableRequiredOptions && (
-            <div className="mb-6 animate-fade-in">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                {t("dashboardScreens.createProduct.requiredOptions")}
-              </label>
-              {isLoadingRequiredOptions ? (
-                <div className="flex justify-center py-4">
-                  <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+              {product.includeSizes ? (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6 animate-fade-in">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {t("dashboardScreens.createProduct.smallSizePrice")} *
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-3 text-gray-500">
+                        €
+                      </span>
+                      <input
+                        type="text"
+                        value={product.smallSizePrice}
+                        onChange={(e) =>
+                          handleFieldChange(
+                            "smallSizePrice",
+                            e.target.value.replace(/[^0-9.]/g, "")
+                          )
+                        }
+                        className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
+                          fieldErrors.smallSizePrice
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {fieldErrors.smallSizePrice && (
+                      <p className="mt-1 text-sm text-red-600 animate-pulse">
+                        {fieldErrors.smallSizePrice}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {t("dashboardScreens.createProduct.mediumSizePrice")} *
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-3 text-gray-500">
+                        €
+                      </span>
+                      <input
+                        type="text"
+                        value={product.mediumSizePrice}
+                        onChange={(e) =>
+                          handleFieldChange(
+                            "mediumSizePrice",
+                            e.target.value.replace(/[^0-9.]/g, "")
+                          )
+                        }
+                        className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
+                          fieldErrors.mediumSizePrice
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {fieldErrors.mediumSizePrice && (
+                      <p className="mt-1 text-sm text-red-600 animate-pulse">
+                        {fieldErrors.mediumSizePrice}
+                      </p>
+                    )}
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      {t("dashboardScreens.createProduct.largeSizePrice")} *
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-3 text-gray-500">
+                        €
+                      </span>
+                      <input
+                        type="text"
+                        value={product.largeSizePrice}
+                        onChange={(e) =>
+                          handleFieldChange(
+                            "largeSizePrice",
+                            e.target.value.replace(/[^0-9.]/g, "")
+                          )
+                        }
+                        className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
+                          fieldErrors.largeSizePrice
+                            ? "border-red-500"
+                            : "border-gray-300"
+                        } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
+                        placeholder="0.00"
+                      />
+                    </div>
+                    {fieldErrors.largeSizePrice && (
+                      <p className="mt-1 text-sm text-red-600 animate-pulse">
+                        {fieldErrors.largeSizePrice}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              ) : existingRequiredOptions.length === 0 ? (
-                <p className="text-gray-500 italic py-2">
-                  {t(
-                    "dashboardScreens.createProduct.noRequiredOptionsAvailable"
+              ) : (
+                <div className="mb-6 animate-fade-in">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t("dashboardScreens.createProduct.price")} *
+                  </label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-3 text-gray-500">
+                      €
+                    </span>
+                    <input
+                      type="text"
+                      value={product.price}
+                      onChange={(e) =>
+                        handleFieldChange(
+                          "price",
+                          e.target.value.replace(/[^0-9.]/g, "")
+                        )
+                      }
+                      className={`w-full pl-8 pr-4 py-3 rounded-lg border ${
+                        fieldErrors.price ? "border-red-500" : "border-gray-300"
+                      } focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200`}
+                      placeholder="0.00"
+                    />
+                  </div>
+                  {fieldErrors.price && (
+                    <p className="mt-1 text-sm text-red-600 animate-pulse">
+                      {fieldErrors.price}
+                    </p>
                   )}
-                </p>
-              ) : (
-                <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg p-2">
-                  <div className="grid grid-cols-1 gap-2">
-                    {existingRequiredOptions.map((option) => (
-                      <div
-                        key={option.id}
-                        onClick={() => toggleRequiredOptionSelection(option.id)}
-                        className={`p-3 rounded-md cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
-                          selectedRequiredOptionIds.includes(option.id)
-                            ? "bg-indigo-100 border-indigo-500 border"
-                            : "bg-gray-50 border border-gray-200"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <p className="font-medium">{option.name}</p>
-                          {selectedRequiredOptionIds.includes(option.id) && (
-                            <svg
-                              className="w-5 h-5 text-indigo-600"
-                              fill="none"
-                              stroke="currentColor"
-                              viewBox="0 0 24 24"
-                              xmlns="http://www.w3.org/2000/svg"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M5 13l4 4L19 7"
-                              ></path>
-                            </svg>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
                 </div>
               )}
-              {fieldErrors.requiredOptions && (
-                <p className="mt-1 text-sm text-red-600 animate-pulse">
-                  {fieldErrors.requiredOptions}
-                </p>
-              )}
-            </div>
-          )}
 
-          {/* Description */}
-          <div className="mb-6 animate-fade-in">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t("dashboardScreens.createProduct.description")}
-            </label>
-            <textarea
-              value={product.description}
-              onChange={(e) => onChange("description", e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-              placeholder={t(
-                "dashboardScreens.createProduct.descriptionPlaceholder"
-              )}
-              rows={4}
-              disabled={loading}
-            />
-          </div>
+         
+              <div className="mb-6 animate-fade-in">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("dashboardScreens.createProduct.category")} *
+                </label>
 
-          {/* Calories */}
-          <div className="mb-6 animate-fade-in">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t("dashboardScreens.createProduct.calories")}
-            </label>
-            <input
-              type="text"
-              value={product.calories}
-              onChange={(e) =>
-                onChange("calories", e.target.value.replace(/[^0-9]/g, ""))
-              }
-              className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
-              placeholder={t(
-                "dashboardScreens.createProduct.caloriesPlaceholder"
-              )}
-              disabled={loading}
-            />
-          </div>
+                {isLoadingCategories ? (
+                  <div className="flex items-center justify-center p-4 bg-gray-50 rounded-lg">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-indigo-600 mr-2"></div>
+                    <span className="text-gray-600 text-sm">
+                      {t("common.loading")}
+                    </span>
+                  </div>
+                ) : (
+                  <div
+                    className={`relative rounded-lg border ${
+                      fieldErrors.categoryId
+                        ? "border-red-500"
+                        : "border-gray-300"
+                    } focus-within:ring-2 focus-within:ring-indigo-500 focus-within:border-transparent transition-all duration-200`}
+                  >
+                    <div
+                      onClick={() =>
+                        setIsCategorySelectOpen(!isCategorySelectOpen)
+                      }
+                      className="w-full px-4 py-3 bg-transparent cursor-pointer flex items-center justify-between"
+                    >
+                      <span
+                        className={!product.categoryId ? "text-gray-400" : ""}
+                      >
+                        {product.categoryId
+                          ? categories.find(
+                              (c) =>
+                                c.categoryId?.toString() === product.categoryId
+                            )?.name
+                          : t("dashboardScreens.createProduct.selectCategory")}
+                      </span>
+                      <svg
+                        className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
+                          isCategorySelectOpen ? "transform rotate-180" : ""
+                        }`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M19 9l-7 7-7-7"
+                        ></path>
+                      </svg>
+                    </div>
 
-          {/* Product Image */}
-          <div className="mb-6 animate-fade-in">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              {t("dashboardScreens.createProduct.productImage")}
-            </label>
-            <ImageUploader
-              onImageSelected={setImageUri}
-              onRemoveImage={() => setImageUri(null)}
-            />
-          </div>
+                    {isCategorySelectOpen && (
+                      <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-lg z-10 max-h-60 overflow-y-auto">
+                        {categories.length === 0 ? (
+                          <div className="px-4 py-3 text-gray-500 text-sm">
+                            {t(
+                              "dashboardScreens.createProduct.noCategoriesAvailable"
+                            )}
+                          </div>
+                        ) : (
+                          categories.map((category) => (
+                            <div
+                              key={category.categoryId}
+                              onClick={() =>
+                                handleCategoryChange(
+                                  category.categoryId?.toString() || ""
+                                )
+                              }
+                              className={`px-4 py-3 cursor-pointer hover:bg-gray-100 transition-colors duration-200 ${
+                                product.categoryId ===
+                                category.categoryId?.toString()
+                                  ? "bg-indigo-100 text-indigo-700"
+                                  : ""
+                              }`}
+                            >
+                              {category.name}
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
 
-          {/* Save Button */}
-          <button
-            onClick={handleSave}
-            disabled={loading}
-            className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-300 transform hover:scale-[1.02] ${
-              loading
-                ? "bg-indigo-400 cursor-not-allowed"
-                : "bg-indigo-600 hover:bg-indigo-700"
-            }`}
-          >
-            {loading ? (
-              <div className="flex items-center justify-center">
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                {t("dashboardScreens.createProduct.saving")}
+                {fieldErrors.categoryId && (
+                  <p className="mt-1 text-sm text-red-600 animate-pulse">
+                    {fieldErrors.categoryId}
+                  </p>
+                )}
+                {categoriesError && (
+                  <button
+                    onClick={retryLoadingCategories}
+                    className="mt-2 px-4 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md transition-colors duration-200 text-sm"
+                  >
+                    {t("dashboardScreens.createProduct.retryLoadingCategories")}
+                  </button>
+                )}
               </div>
-            ) : (
-              t("dashboardScreens.createProduct.saveProduct")
-            )}
-          </button>
-        </div>
-      </div>
 
-      <AnimatedAlert
-        visible={showAlert}
-        title={alertTitle}
-        message={alertMessage}
-        onClose={() => setshowAlert(false)}
-      />
+              <div className="mb-6 animate-fade-in">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {t(
+                      "dashboardScreens.createProduct.enableAdditionalOptions"
+                    )}
+                  </label>
+                  <div className="relative inline-block w-12 h-6">
+                    <input
+                      type="checkbox"
+                      checked={enableAdditionalOptions}
+                      onChange={(e) =>
+                        setEnableAdditionalOptions(e.target.checked)
+                      }
+                      className="sr-only"
+                      id="additionalOptionsToggle"
+                    />
+                    <label
+                      htmlFor="additionalOptionsToggle"
+                      className={`block w-12 h-6 rounded-full transition-all duration-300 ${
+                        enableAdditionalOptions
+                          ? "bg-indigo-600"
+                          : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
+                          enableAdditionalOptions ? "translate-x-6" : ""
+                        }`}
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {enableAdditionalOptions && (
+                <div className="mb-6 animate-fade-in">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t("dashboardScreens.createProduct.additionalOptions")}
+                  </label>
+                  {isLoadingOptions ? (
+                    <div className="flex justify-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+                    </div>
+                  ) : existingOptions.length === 0 ? (
+                    <p className="text-gray-500 italic py-2">
+                      {t("dashboardScreens.createProduct.noOptionsAvailable")}
+                    </p>
+                  ) : (
+                    <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                      <div className="grid grid-cols-1 gap-2">
+                        {existingOptions.map((option) => (
+                          <div
+                            key={option.id}
+                            onClick={() => toggleOptionSelection(option.id)}
+                            className={`p-3 rounded-md cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
+                              selectedOptionIds.includes(option.id)
+                                ? "bg-indigo-100 border-indigo-500 border"
+                                : "bg-gray-50 border border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <p className="font-medium">{option.name}</p>
+                                <p className="text-sm text-gray-600">
+                                  €{option.unitPrice.toFixed(2)}
+                                </p>
+                              </div>
+                              {selectedOptionIds.includes(option.id) && (
+                                <svg
+                                  className="w-5 h-5 text-indigo-600"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M5 13l4 4L19 7"
+                                  ></path>
+                                </svg>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {fieldErrors.additionalOptions && (
+                    <p className="mt-1 text-sm text-red-600 animate-pulse">
+                      {fieldErrors.additionalOptions}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="mb-6 animate-fade-in">
+                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                  <label className="block text-sm font-medium text-gray-700">
+                    {t("dashboardScreens.createProduct.enableRequiredOptions")}
+                  </label>
+                  <div className="relative inline-block w-12 h-6">
+                    <input
+                      type="checkbox"
+                      checked={enableRequiredOptions}
+                      onChange={(e) =>
+                        setEnableRequiredOptions(e.target.checked)
+                      }
+                      className="sr-only"
+                      id="requiredOptionsToggle"
+                    />
+                    <label
+                      htmlFor="requiredOptionsToggle"
+                      className={`block w-12 h-6 rounded-full transition-all duration-300 ${
+                        enableRequiredOptions ? "bg-indigo-600" : "bg-gray-300"
+                      }`}
+                    >
+                      <span
+                        className={`absolute top-0.5 left-0.5 bg-white w-5 h-5 rounded-full transition-transform duration-300 transform ${
+                          enableRequiredOptions ? "translate-x-6" : ""
+                        }`}
+                      ></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              {enableRequiredOptions && (
+                <div className="mb-6 animate-fade-in">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    {t("dashboardScreens.createProduct.requiredOptions")}
+                  </label>
+                  {isLoadingRequiredOptions ? (
+                    <div className="flex justify-center py-4">
+                      <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-indigo-600"></div>
+                    </div>
+                  ) : existingRequiredOptions.length === 0 ? (
+                    <p className="text-gray-500 italic py-2">
+                      {t(
+                        "dashboardScreens.createProduct.noRequiredOptionsAvailable"
+                      )}
+                    </p>
+                  ) : (
+                    <div className="max-h-60 overflow-y-auto border border-gray-200 rounded-lg p-2">
+                      <div className="grid grid-cols-1 gap-2">
+                        {existingRequiredOptions.map((option) => (
+                          <div
+                            key={option.id}
+                            onClick={() =>
+                              toggleRequiredOptionSelection(option.id)
+                            }
+                            className={`p-3 rounded-md cursor-pointer transition-all duration-200 transform hover:scale-[1.02] ${
+                              selectedRequiredOptionIds.includes(option.id)
+                                ? "bg-indigo-100 border-indigo-500 border"
+                                : "bg-gray-50 border border-gray-200"
+                            }`}
+                          >
+                            <div className="flex items-center justify-between">
+                              <p className="font-medium">{option.name}</p>
+                              {selectedRequiredOptionIds.includes(
+                                option.id
+                              ) && (
+                                <svg
+                                  className="w-5 h-5 text-indigo-600"
+                                  fill="none"
+                                  stroke="currentColor"
+                                  viewBox="0 0 24 24"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M5 13l4 4L19 7"
+                                  ></path>
+                                </svg>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  {fieldErrors.requiredOptions && (
+                    <p className="mt-1 text-sm text-red-600 animate-pulse">
+                      {fieldErrors.requiredOptions}
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="mb-6 animate-fade-in">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("dashboardScreens.createProduct.description")}
+                </label>
+                <textarea
+                  value={product.description}
+                  onChange={(e) => onChange("description", e.target.value)}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                  placeholder={t(
+                    "dashboardScreens.createProduct.descriptionPlaceholder"
+                  )}
+                  rows={4}
+                  disabled={loading}
+                />
+              </div>
+
+            
+              <div className="mb-6 animate-fade-in">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("dashboardScreens.createProduct.calories")}
+                </label>
+                <input
+                  type="text"
+                  value={product.calories}
+                  onChange={(e) =>
+                    onChange("calories", e.target.value.replace(/[^0-9]/g, ""))
+                  }
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all duration-200"
+                  placeholder={t(
+                    "dashboardScreens.createProduct.caloriesPlaceholder"
+                  )}
+                  disabled={loading}
+                />
+              </div>
+
+              <div className="mb-6 animate-fade-in">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  {t("dashboardScreens.createProduct.productImage")}
+                </label>
+                <ImageUploader
+                  onImageSelected={setImageUri}
+                  onRemoveImage={() => setImageUri(null)}
+                />
+              </div>
+
+              <button
+                onClick={handleSave}
+                disabled={loading}
+                className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-300 transform hover:scale-[1.02] ${
+                  loading
+                    ? "bg-indigo-400 cursor-not-allowed"
+                    : "bg-indigo-600 hover:bg-indigo-700"
+                }`}
+              >
+                {loading ? (
+                  <div className="flex items-center justify-center">
+                    <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                    {t("dashboardScreens.createProduct.saving")}
+                  </div>
+                ) : (
+                  t("dashboardScreens.createProduct.saveProduct")
+                )}
+              </button>
+            </div>
+          </div>
+
+          <AnimatedAlert
+            visible={showAlert}
+            title={alertTitle}
+            message={alertMessage}
+            onClose={() => setshowAlert(false)}
+          />
+        </main>
+      </div>
     </div>
   );
 };

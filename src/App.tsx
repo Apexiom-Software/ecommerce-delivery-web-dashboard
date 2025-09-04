@@ -6,6 +6,7 @@ import Home from "./pages/home";
 import ListProducts from "./pages/products";
 import CreateProduct from "./pages/createProduct";
 import EditProduct from "./pages/editProduct";
+import ProductDetails from "./pages/productDetails";
 
 function App() {
   return (
@@ -38,7 +39,14 @@ function App() {
               </ProtectedRoute>
             }
           />
-          {/* Autres routes protégées */}
+          <Route
+            path="product-details/:id"
+            element={
+              <ProtectedRoute>
+                <ProductDetails />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </div>
     </I18nextProvider>

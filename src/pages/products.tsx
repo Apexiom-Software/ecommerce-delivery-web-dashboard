@@ -63,22 +63,18 @@ const ListProducts: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex-1">
-      {/* SideBar */}
       <div className="fixed top-0 left-0 h-screen z-40 lg:z-auto">
         <Sidebar isOpen={sidebarOpen} setIsOpen={setSidebarOpen} />
       </div>
 
-      {/* Main Content */}
       <div
         className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
           sidebarOpen ? "ml-64" : "ml-0"
         }`}
       >
-        {/* Header - Optimized for mobile */}
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center">
-              {/* Mobile menu button */}
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
                 className="lg:hidden mr-3 p-2 rounded-lg hover:bg-gray-100 transition-colors"
@@ -100,7 +96,6 @@ const ListProducts: React.FC = () => {
                 </svg>
               </button>
 
-              {/* Title - All Products with product count */}
               <div className="flex items-center">
                 <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] md:max-w-none mr-2">
                   {selectedCategory === null
@@ -140,33 +135,30 @@ const ListProducts: React.FC = () => {
             </button>
           </div>
 
-          {/* Categories label */}
           <div className="mb-3">
             <span className="text-sm font-medium text-gray-700">
               {t("common.categories")}
             </span>
           </div>
 
-          {/* Category filters with images - Horizontal scroll for mobile */}
           <div className="overflow-x-auto pb-2">
-            <div className="inline-flex space-x-2">
-              {/* All categories button */}
+            <div className="inline-flex space-x-3">
               <button
                 onClick={() => handleCategorySelect(null)}
-                className={`flex flex-col items-center px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                className={`flex flex-col items-center px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 min-w-[80px] ${
                   selectedCategory === null
-                    ? "bg-blue-600 text-white"
-                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                    ? "bg-blue-600 text-white shadow-md"
+                    : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:shadow-sm"
                 }`}
               >
                 <div
-                  className={`w-10 h-10 rounded-full flex items-center justify-center mb-1 ${
+                  className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 ${
                     selectedCategory === null ? "bg-blue-500" : "bg-gray-100"
                   }`}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5"
+                    className="h-6 w-6"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -179,24 +171,23 @@ const ListProducts: React.FC = () => {
                     />
                   </svg>
                 </div>
-                <span>{t("tab.home.all")}</span>
+                <span className="font-medium">{t("tab.home.all")}</span>
               </button>
 
-              {/* Category buttons with images */}
               {categories.map((category) => (
                 <button
                   key={category.categoryId}
                   onClick={() => handleCategorySelect(category.categoryId)}
-                  className={`flex flex-col items-center px-3 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-200 ${
+                  className={`flex flex-col items-center px-4 py-3 rounded-xl text-sm font-medium whitespace-nowrap transition-all duration-200 min-w-[90px] ${
                     selectedCategory === category.categoryId
-                      ? "bg-blue-600 text-white"
-                      : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50"
+                      ? "bg-blue-600 text-white shadow-md"
+                      : "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 hover:shadow-sm"
                   }`}
                 >
                   <div
-                    className={`w-10 h-10 rounded-full overflow-hidden mb-1 flex items-center justify-center ${
+                    className={`w-12 h-12 rounded-full overflow-hidden mb-2 flex items-center justify-center ${
                       selectedCategory === category.categoryId
-                        ? "ring-2 ring-blue-300"
+                        ? "ring-2 ring-blue-300 ring-offset-2"
                         : ""
                     }`}
                   >
@@ -210,7 +201,7 @@ const ListProducts: React.FC = () => {
                       <div className="w-full h-full bg-gray-200 flex items-center justify-center">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5 text-gray-400"
+                          className="h-6 w-6 text-gray-400"
                           fill="none"
                           viewBox="0 0 24 24"
                           stroke="currentColor"
@@ -225,9 +216,9 @@ const ListProducts: React.FC = () => {
                       </div>
                     )}
                   </div>
-                  <span className="max-w-[60px] truncate">
-                    {category.name.length > 12
-                      ? category.name.substring(0, 10) + "..."
+                  <span className="font-medium max-w-[70px] truncate">
+                    {category.name.length > 10
+                      ? category.name.substring(0, 8) + "..."
                       : category.name}
                   </span>
                 </button>
@@ -236,7 +227,6 @@ const ListProducts: React.FC = () => {
           </div>
         </header>
 
-        {/* Main content */}
         <main className="flex-1 overflow-auto p-3">
           {loading ? (
             <div className="flex justify-center items-center min-h-[300px]">
@@ -288,14 +278,12 @@ const ListProducts: React.FC = () => {
             </div>
           ) : (
             <>
-              {/* Responsive grid - 2 mobile columns */}
               <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                 {products.map((product) => (
                   <ProductCard key={product.productId} product={product} />
                 ))}
               </div>
 
-              {/* Pagination - Simplified mobile version */}
               {totalPages > 1 && (
                 <div className="flex justify-center items-center mt-8 space-x-2">
                   <button

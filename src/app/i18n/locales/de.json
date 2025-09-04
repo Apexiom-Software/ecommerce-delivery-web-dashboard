@@ -2,13 +2,24 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "manageProducts": "Produkte verwalten",
-    "addProduct": "Neues Produkt hinzufügen",
+    "addProduct": "Neues Produkt",
     "productsList": "Produktliste",
     "analytics": "Analytik",
     "settings": "Einstellungen",
     "language": "Sprache",
     "profile": "Profil",
     "logout": "Abmelden"
+  },
+  "imageUploader": {
+    "previewAlt": "Bildvorschau",
+    "removeImage": "Bild entfernen",
+    "uploadTitle": "Bild hochladen",
+    "dragAndDrop": "oder ziehen und ablegen",
+    "fileTypes": "PNG, JPG, GIF bis zu {{maxSize}}MB",
+    "errors": {
+      "unsupportedType": "Nicht unterstützter Dateityp. Bitte verwenden Sie JPEG, PNG, GIF oder WebP.",
+      "fileTooLarge": "Datei ist zu groß. Maximale Größe: {{maxSize}}MB."
+    }
   },
   "onBoarding": {
     "slide1": {
@@ -34,7 +45,8 @@
     "success": "Erfolg",
     "of": "von",
     "page": "Seite",
-    "categories": "Kategorien"
+    "categories": "Kategorien",
+    "loading": "Wird geladen..."
   },
   "login": {
     "welcomeBack": "Willkommen zurück",
@@ -394,7 +406,25 @@
 
   "screens": {
     "myProductDetails": {
+      "sizes": "Größen",
+      "price": "Preis",
+      "off": "Rabatt",
+      "freeItem": "Kostenloser Artikel",
+      "freeItemDescription": "Erhalten Sie einen kostenlosen Artikel",
+      "fixedDiscount": "Pauschaler Rabatt",
+      "percentageDiscount": "Prozentualer Rabatt",
+      "promotionPeriod": "Aktionszeitraum",
+      "from": "Von",
+      "to": "Bis",
+      "discountDetails": "Rabattdetails",
+      "active": "Aktiv",
+      "inactive": "Inaktiv",
+      "close": "Schließen",
+      "currentPromotion": "Aktuelle Aktion",
+      "seeDetails": "Details ansehen",
       "quantity": "Menge:",
+      "productDetails": "Produktdetails",
+      "calories": "Kalorien",
       "additionalOptionsTitle": "Zusätzliche Optionen",
       "requiredOptions": "Erforderliche Optionen",
       "errorLoadProduct": "Produktdetails konnten nicht geladen werden",
@@ -561,7 +591,9 @@
       "noProducts": "Keine Produkte verfügbar",
       "loading": "Wird geladen...",
       "error": "Produkte konnten nicht geladen werden",
-      "resultsFor": "Ergebnisse für \"{{query}}\""
+      "resultsFor": "Ergebnisse für \"{{query}}\"",
+      "product": "Produkt",
+      "products": "Produkte"
     },
 
     "deliveryDriverScreen": {

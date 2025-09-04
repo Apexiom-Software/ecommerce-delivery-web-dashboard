@@ -95,7 +95,6 @@ export default function Home() {
 
   return (
     <div className="flex flex-col lg:flex-row w-screen h-screen overflow-auto lg:overflow-hidden">
-      {/* Partie vidéo */}
       <div className="w-full lg:w-1/2 h-1/3 lg:h-full relative overflow-hidden order-1 lg:order-1">
         <video
           ref={videoRef}
@@ -113,10 +112,8 @@ export default function Home() {
           }}
         />
 
-        {/* Overlay avec gradient orange/jaune */}
         <div className="absolute top-0 left-0 w-full h-full  z-10"></div>
 
-        {/* Étoiles décoratives */}
         <div className="absolute top-6 right-6 z-50">
           <div className="flex justify-center items-center space-x-1">
             {[...Array(5)].map((_, i) => (
@@ -142,9 +139,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Partie formulaire */}
       <div className="w-full lg:w-1/2 h-2/3 lg:h-full flex items-center justify-center bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-y-auto lg:overflow-hidden relative p-4 order-2 lg:order-2">
-        {/* Background floating circles */}
 
         <div className="absolute top-6 left-6 z-50">
           <select
@@ -167,14 +162,12 @@ export default function Home() {
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        {/* Glassmorphism card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 50 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
           className="relative z-10 w-full max-w-sm lg:max-w-md rounded-2xl bg-white/10 p-6 lg:p-8 shadow-2xl backdrop-blur-xl border border-white/20 my-4 lg:my-0"
         >
-          {/* Header */}
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -199,7 +192,6 @@ export default function Home() {
             </p>
           </motion.div>
 
-          {/* Error message */}
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -211,9 +203,7 @@ export default function Home() {
             </motion.div>
           )}
 
-          {/* Form */}
           <form onSubmit={handleLogin} className="space-y-4 lg:space-y-6">
-            {/* Email */}
             <motion.div
               initial={{ x: -30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -232,7 +222,6 @@ export default function Home() {
               />
             </motion.div>
 
-            {/* Password */}
             <motion.div
               initial={{ x: 30, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
@@ -258,7 +247,6 @@ export default function Home() {
               </button>
             </motion.div>
 
-            {/* Forgot Password */}
             <div className="flex justify-end">
               <a
                 href="#"
@@ -268,7 +256,6 @@ export default function Home() {
               </a>
             </div>
 
-            {/* Submit Button */}
             <motion.button
               type="submit"
               whileHover={{ scale: isLoading ? 1 : 1.05 }}
@@ -306,7 +293,6 @@ export default function Home() {
             </motion.button>
           </form>
 
-          {/* Divider */}
           <div className="my-4 lg:my-6 flex items-center justify-center space-x-4">
             <div className="h-px w-1/4 bg-orange-300"></div>
             <span className="text-sm text-yellow-100">
@@ -315,7 +301,6 @@ export default function Home() {
             <div className="h-px w-1/4 bg-orange-300"></div>
           </div>
 
-          {/* Social Login */}
           <motion.div
             className="flex flex-col space-y-3 lg:space-y-4"
             initial={{ opacity: 0 }}

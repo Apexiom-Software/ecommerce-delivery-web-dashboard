@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import type { Product } from "../services/productService";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface ProductCardProps {
   product: Product;
@@ -14,6 +15,7 @@ const ProductCard: React.FC<ProductCardProps> = ({
   onEdit,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const displayCalories = product.calories ?? 0;
   const formattedPrice = product.includeSizes
     ? (product.largeSizePrice ?? product.price ?? 0).toFixed(2)
@@ -64,7 +66,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-        {/* Promotion Badge */}
         {product.isPromoted && (
           <div
             className={`absolute top-2 left-2 bg-red-600 px-2 py-1 rounded z-10 shadow-md ${
@@ -72,12 +73,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
             } transition-all duration-500 pointer-events-none`}
           >
             <div className="flex items-center justify-center">
-              <span className="text-white text-xs font-bold">PROMO</span>
+              <span className="text-white text-xs font-bold">
+                {t("component.ui.myProductItem.promoBadge")}
+              </span>
             </div>
           </div>
         )}
 
-        {/* Disabled Badge */}
         {product.isDisabled && (
           <div className="absolute top-2 right-2 bg-red-600 px-2 py-1 rounded z-10 shadow-md pointer-events-none">
             <div className="flex items-center justify-center">
@@ -95,12 +97,13 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-              <span className="text-white text-xs font-bold">Disabled</span>
+              <span className="text-white text-xs font-bold">
+                {t("component.ui.myProductItem.disabled")}
+              </span>
             </div>
           </div>
         )}
 
-        {/* Image */}
         <div className="relative flex-shrink-0 overflow-hidden">
           {imageSource ? (
             <img
@@ -129,7 +132,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
             </div>
           )}
 
-          {/* Hover overlay (visual only) */}
           <div
             className={`pointer-events-none absolute inset-0 bg-black/30 flex items-center justify-center transition-opacity duration-300 ${
               isHovered ? "opacity-100" : "opacity-0"
@@ -137,7 +139,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           />
         </div>
 
-        {/* Content */}
         <div className="relative z-10 p-3 md:p-4 flex-1 flex flex-col">
           <div className="mb-2">
             <h3
@@ -169,7 +170,8 @@ const ProductCard: React.FC<ProductCardProps> = ({
                   d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"
                 />
               </svg>
-              {product.category?.name || "No Category"}
+              {product.category?.name ||
+                t("component.ui.myProductItem.noCategory")}
             </span>
             <span
               className={`text-xs md:text-sm flex items-center font-medium ${
@@ -217,29 +219,21 @@ const ProductCard: React.FC<ProductCardProps> = ({
                       : "bg-black text-white"
                   } px-2 py-1 rounded text-xs font-semibold`}
                 >
-                  Large
+                  {t("component.ui.myProductItem.sizeLarge")}
                 </span>
               )}
             </div>
 
-            {/* Actions - ensure on top of any overlays */}
             <div className="relative z-20 flex gap-2">
               <button
                 type="button"
                 onClick={handleViewDetails}
-                className={`p-2 rounded-full transition-colors duration-200 ${
-                  product.isDisabled
-                    ? "bg-gray-200 cursor-not-allowed"
-                    : "bg-gray-100 hover:bg-gray-200"
-                }`}
-                aria-label="Voir les détails"
-                disabled={product.isDisabled}
+                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+                aria-label={t("screens.orderDetails.viewDetails")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-4 w-4 ${
-                    product.isDisabled ? "text-gray-400" : "text-gray-700"
-                  }`}
+                  className="h-4 w-4 text-gray-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -262,19 +256,12 @@ const ProductCard: React.FC<ProductCardProps> = ({
               <button
                 type="button"
                 onClick={handleEdit}
-                className={`p-2 rounded-full transition-colors duration-200 ${
-                  product.isDisabled
-                    ? "bg-gray-200 cursor-not-allowed"
-                    : "bg-gray-100 hover:bg-gray-200"
-                }`}
-                aria-label="Modifier le produit"
-                disabled={product.isDisabled}
+                className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors duration-200"
+                aria-label={t("dashboardScreens.productDetails.editProduct")}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  className={`h-4 w-4 ${
-                    product.isDisabled ? "text-gray-400" : "text-gray-700"
-                  }`}
+                  className="h-4 w-4 text-gray-700"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -291,7 +278,6 @@ const ProductCard: React.FC<ProductCardProps> = ({
           </div>
         </div>
 
-        {/* Decorative border overlay (must not intercept clicks) */}
         <div
           className={`pointer-events-none absolute inset-0 rounded-xl border-2 border-transparent transition-all duration-300 ${
             isHovered && !product.isDisabled ? "border-red-400" : ""
