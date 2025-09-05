@@ -99,7 +99,7 @@ export default function Home() {
         <video
           ref={videoRef}
           className="absolute top-0 left-0 w-full h-full object-cover z-0"
-          src="./src/assets/images/restaurant_dashboard_home_page.mp4"
+          src="/assets/images/restaurant_dashboard_home_page.mp4"
           autoPlay
           muted
           loop
@@ -140,7 +140,6 @@ export default function Home() {
       </div>
 
       <div className="w-full lg:w-1/2 h-2/3 lg:h-full flex items-center justify-center bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-y-auto lg:overflow-hidden relative p-4 order-2 lg:order-2">
-
         <div className="absolute top-6 left-6 z-50">
           <select
             value={language}
@@ -312,7 +311,7 @@ export default function Home() {
               className="flex items-center justify-center gap-2 rounded-xl bg-white/20 py-2 lg:py-3 text-white shadow-md hover:bg-white/30 transition text-sm lg:text-base border border-orange-200/30"
             >
               <img
-                src="../../src/assets/images/google.svg"
+                src="/assets/images/google.svg"
                 alt="Google"
                 className="h-4 w-4 lg:h-5 lg:w-5"
               />
@@ -324,7 +323,7 @@ export default function Home() {
               className="flex items-center justify-center gap-2 rounded-xl bg-white/20 py-2 lg:py-3 text-white shadow-md hover:bg-white/30 transition text-sm lg:text-base border border-orange-200/30"
             >
               <img
-                src="../../src/assets/images/apple.svg"
+                src="/assets/images/apple.svg"
                 alt="Apple"
                 className="h-4 w-4 lg:h-5 lg:w-5"
               />
