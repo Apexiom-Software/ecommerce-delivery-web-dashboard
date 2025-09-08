@@ -2,6 +2,9 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "manageProducts": "Produkte verwalten",
+    "manageCategories": "Kategorien verwalten",
+    "addCategory": "Neue Kategorie",
+    "categoriesList": "Kategorienliste",
     "addProduct": "Neues Produkt",
     "productsList": "Produktliste",
     "analytics": "Analytik",
@@ -984,12 +987,14 @@
       "disableErrorMessage": "Produkt konnte nicht deaktiviert werden",
       "disabledProduct": "Deaktiviertes ?",
       "disabledHelpText": "Wenn aktiviert, wird dieses Produkt für Kunden ausgeblendet",
-      "disableConfirm": "Deaktivieren"
+      "disableConfirm": "Deaktivieren",
+      "errorTitle": "Fehler",
+      "errorMessage": "Die Kategorie kann nicht gelöscht werden, da sie noch Produkte enthält"
     },
 
     "createCategory": {
       "title": "Neue Kategorie",
-      "name": "Kategoriename *",
+      "name": "Kategoriename",
       "namePlaceholder": "Geben Sie den Kategorienamen ein",
       "description": "Beschreibung",
       "descriptionPlaceholder": "Geben Sie eine Beschreibung ein",
@@ -1006,30 +1011,48 @@
       "listingOrder": "Anzeigereihenfolge",
       "listingOrderPlaceholder": "z. B. 1",
       "listingOrderHint": "Kleinere Zahlen erscheinen zuerst in der Liste.",
-      "listingOrderMustBeInteger": "Die Anzeigereihenfolge muss eine positive ganze Zahl sein."
+      "listingOrderMustBeInteger": "Die Anzeigereihenfolge muss eine positive ganze Zahl sein.",
+      "validationErrors": {
+        "nameRequired": "Kategoriename ist erforderlich",
+        "listingOrderMustBeInteger": "Die Anzeigereihenfolge muss eine positive ganze Zahl sein."
+      }
     },
 
     "updateCategory": {
       "title": "Kategorie bearbeiten",
       "name": "Kategoriename *",
-      "namePlaceholder": "Kategoriename eingeben",
+      "namePlaceholder": "Kategorienamen eingeben",
       "description": "Beschreibung",
-      "descriptionPlaceholder": "Beschreibung eingeben",
+      "descriptionPlaceholder": "Kategoriebeschreibung eingeben",
       "image": "Kategoriebild",
       "saveButton": "Kategorie aktualisieren",
-      "loadingText": "Kategoriedaten werden geladen...",
+      "loadingText": "Lade Kategoriedaten...",
       "validationTitle": "Validierungsfehler",
       "nameRequired": "Kategoriename ist erforderlich",
       "successTitle": "Erfolg",
-      "successMessage": "Kategorie wurde erfolgreich aktualisiert",
+      "successMessage": "Kategorie erfolgreich aktualisiert",
       "errorTitle": "Fehler",
-      "errorMessage": "Aktualisierung fehlgeschlagen",
+      "errorMessage": "Kategorie konnte nicht aktualisiert werden",
       "loadErrorTitle": "Ladefehler",
       "loadErrorMessage": "Kategoriedaten konnten nicht geladen werden",
-      "listingOrder": "Anzeigereihenfolge",
-      "listingOrderPlaceholder": "z. B. 1",
-      "listingOrderHint": "Kleinere Zahlen erscheinen zuerst in der Liste.",
-      "listingOrderMustBeInteger": "Die Anzeigereihenfolge muss eine positive ganze Zahl sein."
+      "listingOrder": "Sortierreihenfolge",
+      "listingOrderPlaceholder": "z.B. 1",
+      "listingOrderHint": "Niedrigere Zahlen erscheinen zuerst in der Liste.",
+      "listingOrderMustBeInteger": "Die Sortierreihenfolge muss eine positive ganze Zahl sein.",
+      "invalidId": "Ungültige Kategorie-ID",
+      "confirmChangesMessage": "Sind Sie sicher, dass Sie diese Änderungen speichern möchten?",
+      "cancel": "Abbrechen",
+      "disableCategory": "Kategorie deaktivieren",
+      "disableCategoryMessage": "Sind Sie sicher, dass Sie diese Kategorie deaktivieren möchten? Sie wird für Benutzer nicht sichtbar sein.",
+      "disable": "Deaktivieren",
+      "disableSuccessTitle": "Kategorie deaktiviert",
+      "disableSuccessMessage": "Kategorie wurde erfolgreich deaktiviert",
+      "disableErrorTitle": "Deaktivierungsfehler",
+      "disableErrorMessage": "Kategorie konnte nicht deaktiviert werden",
+      "deleteCategory": "Kategorie löschen",
+      "categoryDisabled": "Kategorie ist deaktiviert",
+      "categoryEnabled": "Kategorie ist aktiviert",
+      "disableHelpText": "Wenn deaktiviert, ist diese Kategorie für Kunden nicht sichtbar."
     },
 
     "createPromotion": {

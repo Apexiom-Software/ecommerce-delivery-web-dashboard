@@ -37,7 +37,6 @@ interface ProductFormData {
   isDisabled: boolean;
 }
 
-// Supprimer l'interface EditProductProps car nous utilisons useParams maintenant
 
 const EditProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();

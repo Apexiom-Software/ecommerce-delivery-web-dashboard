@@ -2,6 +2,9 @@
   "sidebar": {
     "dashboard": "Dashboard",
     "manageProducts": "Manage Products",
+    "manageCategories": "Manage Categories",
+    "addCategory": "New Category",
+    "categoriesList": "Categories List",
     "addProduct": "New Product",
     "productsList": "Products List",
     "analytics": "Analytics",
@@ -47,7 +50,8 @@
     "of": "of",
     "page": "page",
     "categories": "Categories",
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "category": "Category"
   },
 
   "login": {
@@ -406,7 +410,7 @@
 
   "screens": {
     "myProductDetails": {
-      "sizes":"Sizes",
+      "sizes": "Sizes",
       "price": "Price",
       "off": "off",
       "freeItem": "Free Item",
@@ -968,7 +972,6 @@
       "saveChanges": "Save Changes",
       "editProduct": "Edit Product",
       "deleteProduct": "Delete Product",
-
       "successTitle": "Success",
       "productUpdated": "Product updated successfully",
       "productDeleted": "Product deleted successfully",
@@ -983,12 +986,14 @@
       "disableErrorMessage": "Product could not be disabled",
       "disabledProduct": "Disabled ?",
       "disabledHelpText": "When enabled, this product will be hidden from customers",
-      "disableConfirm": "Disable"
+      "disableConfirm": "Disable",
+      "errorTitle": "Error",
+      "errorMessage": "Cannot delete the category because it still contains products"
     },
 
     "createCategory": {
       "title": "New Category",
-      "name": "Category Name *",
+      "name": "Category Name",
       "namePlaceholder": "Enter category name",
       "description": "Description",
       "descriptionPlaceholder": "Enter category description",
@@ -1005,7 +1010,11 @@
       "listingOrder": "Listing Order",
       "listingOrderPlaceholder": "e.g. 1",
       "listingOrderHint": "Lower numbers appear first in the list.",
-      "listingOrderMustBeInteger": "Listing order must be a positive whole number."
+      "listingOrderMustBeInteger": "Listing order must be a positive whole number.",
+      "validationErrors": {
+        "nameRequired": "Category name is required",
+        "listingOrderMustBeInteger": "Listing order must be a positive whole number"
+      }
     },
 
     "updateCategory": {
@@ -1028,7 +1037,21 @@
       "listingOrder": "Listing Order",
       "listingOrderPlaceholder": "e.g. 1",
       "listingOrderHint": "Lower numbers appear first in the list.",
-      "listingOrderMustBeInteger": "Listing order must be a positive whole number."
+      "listingOrderMustBeInteger": "Listing order must be a positive whole number.",
+      "invalidId": "Invalid category ID",
+      "confirmChangesMessage": "Are you sure you want to save these changes?",
+      "cancel": "Cancel",
+      "disableCategory": "Disable Category",
+      "disableCategoryMessage": "Are you sure you want to disable this category? It will be hidden from users.",
+      "disable": "Disable",
+      "disableSuccessTitle": "Category Disabled",
+      "disableSuccessMessage": "Category has been disabled successfully",
+      "disableErrorTitle": "Disable Error",
+      "disableErrorMessage": "Failed to disable category",
+      "deleteCategory": "Delete Category",
+      "categoryDisabled": "Category is disabled",
+      "categoryEnabled": "Category is enabled",
+      "disableHelpText": "When disabled, this category will not be visible to customers."
     },
 
     "createPromotion": {

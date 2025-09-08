@@ -7,6 +7,9 @@ import ListProducts from "./pages/products";
 import CreateProduct from "./pages/createProduct";
 import EditProduct from "./pages/editProduct";
 import ProductDetails from "./pages/productDetails";
+import ListCategories from "./pages/categories";
+import CreateCategory from "./pages/createCateogory";
+import EditCategory from "./pages/editCategory";
 
 function App() {
   return (
@@ -44,6 +47,31 @@ function App() {
             element={
               <ProtectedRoute>
                 <ProductDetails />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="create-category"
+            element={
+              <ProtectedRoute>
+                <CreateCategory />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="categories"
+            element={
+              <ProtectedRoute>
+                <ListCategories />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="edit-category/:id"
+            element={
+              <ProtectedRoute>
+                <EditCategory />
               </ProtectedRoute>
             }
           />

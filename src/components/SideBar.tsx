@@ -11,6 +11,7 @@ import {
   FaUser,
   FaSignOutAlt,
   FaGlobe,
+  FaFolder,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/authService";
@@ -26,6 +27,10 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(false);
+  const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
+  const toggleManageCategories = () => {
+    setManageCategoriesOpen(!manageCategoriesOpen);
+  };
   const { t, i18n } = useTranslation();
 
   const handleLogout = async () => {
@@ -205,7 +210,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         variants={sidebarVariants}
         className="fixed lg:static top-0 left-0 h-screen w-64 text-white bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-y-auto lg:overflow-hidden flex flex-col"
       >
-      
         <div className="flex-shrink-0 flex items-center justify-between p-4 border-b border-orange-400">
           <motion.div
             variants={itemVariants}
@@ -301,7 +305,81 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               )}
             </AnimatePresence>
           </motion.div>
+        
+          <motion.div variants={itemVariants}>
+            <button
+              onClick={toggleManageCategories}
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400 transition-colors group"
+            >
+              <div className="flex items-center">
+                <FaFolder className="text-xl mr-3 text-white" />
+                <span className="whitespace-nowrap">
+                  {t("sidebar.manageCategories")}
+                </span>
+              </div>
+              <motion.div
+                animate={{ rotate: manageCategoriesOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </motion.div>
+            </button>
 
+            <AnimatePresence>
+              {manageCategoriesOpen && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  variants={containerVariants}
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
+                >
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/create-category"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaPlusCircle className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/create-category")}
+                      >
+                        {t("sidebar.addCategory")}
+                      </span>
+                    </a>
+                  </motion.div>
+
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/categories"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaList className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/categories")}
+                      >
+                        {t("sidebar.categoriesList")}
+                      </span>
+                    </a>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
           <motion.div variants={itemVariants}>
             <a
               href="/analytics"
@@ -316,7 +394,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               </span>
             </a>
           </motion.div>
-
           <motion.div variants={itemVariants}>
             <button
               onClick={toggleSettings}
@@ -416,7 +493,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               )}
             </AnimatePresence>
           </motion.div>
-
           <motion.div variants={itemVariants}>
             <a
               href="/profile"

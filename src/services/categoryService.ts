@@ -8,6 +8,8 @@ export interface Category {
   name: string;
   description?: string;
   image?: string;
+  listingOrder?: number;
+  isDisabled?: boolean;
   //imageBase64?: string;
 }
 
