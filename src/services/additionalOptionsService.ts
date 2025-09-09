@@ -9,6 +9,7 @@ export interface AdditionalOptionRequest {
   name?: string;
   unitPrice?: number; // Changed from Number to number
   additional_option_category_id: number;
+  isDisabled?: boolean;
 }
 
 export interface AdditionalOptionResponse {
@@ -17,6 +18,7 @@ export interface AdditionalOptionResponse {
   unitPrice?: number; // Changed from Number to number
   categoryName: string;
   additional_option_category_id: number;
+  isDisabled: boolean;
 }
 
 export interface PaginatedAdditionalOptionResponse {
@@ -56,6 +58,7 @@ export const getAdditionalOptionById = async (
         additional_option_category_id:
           response.data.additional_option_category_id,
         categoryName: response.data.categoryName,
+        isDisabled: response.data.isDisabled,
       };
     }
 

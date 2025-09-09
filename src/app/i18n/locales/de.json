@@ -11,7 +11,10 @@
     "settings": "Einstellungen",
     "language": "Sprache",
     "profile": "Profil",
-    "logout": "Abmelden"
+    "logout": "Abmelden",
+    "manageAdditionalOptions": "Zusätzliche Optionen",
+    "addAdditionalOption": "Zusätzliche Option",
+    "additionalOptionsList": "Zusätzliche Optionen"
   },
   "imageUploader": {
     "previewAlt": "Bildvorschau",
@@ -49,7 +52,10 @@
     "of": "von",
     "page": "Seite",
     "categories": "Kategorien",
-    "loading": "Wird geladen..."
+    "loading": "Wird geladen...",
+    "delete": "Löschen",
+    "options": "Optionen",
+    "edit": "Bearbeiten"
   },
   "login": {
     "welcomeBack": "Willkommen zurück",
@@ -745,6 +751,9 @@
   },
 
   "dashboardScreens": {
+    "categories": {
+      "disabled": "DEAKTIVIERT"
+    },
     "dashboard": {
       "title": "Dashboard",
       "manageRestaurantSettings": "Restaurant-Einstellungen verwalten",
@@ -1148,7 +1157,16 @@
       "cancel": "Abbrechen",
       "delete": "Löschen",
 
-      "warningNoCategory": "⚠️ Bitte wählen oder erstellen Sie zuerst eine Kategorie."
+      "warningNoCategory": "⚠️ Bitte wählen oder erstellen Sie zuerst eine Kategorie.",
+      "deleteConfirmMessageCascade": "Dadurch werden auch alle Optionen in dieser Kategorie deaktiviert. Fortfahren?",
+      "successCategoryDeletedCascade": "Kategorie und ihre Optionen erfolgreich deaktiviert",
+      "warningOptionsDisabled": "Alle Optionen in dieser Kategorie werden deaktiviert",
+      "statusLabel": "Status",
+      "active": "Aktiv",
+      "disabled": "Deaktiviert",
+      "successOptionDisabled": "Option erfolgreich deaktiviert",
+      "successOptionEnabled": "Option erfolgreich aktiviert",
+      "disableLabel": "Deaktivieren"
     },
 
     "additionalOptionsList": {
@@ -1165,7 +1183,8 @@
       "loadErrorMessage": "Zusätzliche Optionen konnten nicht geladen werden",
       "noMoreOptions": "Keine weiteren Optionen",
       "noOptionsFound": "Keine zusätzlichen Optionen gefunden",
-      "addButtonLabel": "Neue Option hinzufügen"
+      "addButtonLabel": "Neue Option hinzufügen",
+      "disabled": "Deaktiviert"
     },
 
     "requiredOptions": {

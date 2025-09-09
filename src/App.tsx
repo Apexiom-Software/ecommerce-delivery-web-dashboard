@@ -10,6 +10,8 @@ import ProductDetails from "./pages/productDetails";
 import ListCategories from "./pages/categories";
 import CreateCategory from "./pages/createCateogory";
 import EditCategory from "./pages/editCategory";
+import AdditionalOptionAndCategoryForm from "./pages/additionalOptionAndCategoryForm";
+import ListAdditionalOptions from "./pages/additionalOptions";
 
 function App() {
   return (
@@ -72,6 +74,30 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditCategory />
+              </ProtectedRoute>
+            }
+          />
+         <Route
+            path="additional-options"
+            element={
+              <ProtectedRoute>
+                <ListAdditionalOptions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="additional-option-form"
+            element={
+              <ProtectedRoute>
+                <AdditionalOptionAndCategoryForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="additional-option-form/:id"
+            element={
+              <ProtectedRoute>
+                <AdditionalOptionAndCategoryForm />
               </ProtectedRoute>
             }
           />

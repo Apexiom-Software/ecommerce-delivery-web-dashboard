@@ -11,7 +11,10 @@
     "settings": "Settings",
     "language": "Language",
     "profile": "Profile",
-    "logout": "Logout"
+    "logout": "Logout",
+    "manageAdditionalOptions": "Additional Options",
+    "addAdditionalOption": "Additional Option",
+    "additionalOptionsList": "Additional Options"
   },
 
   "imageUploader": {
@@ -51,7 +54,10 @@
     "page": "page",
     "categories": "Categories",
     "loading": "Loading...",
-    "category": "Category"
+    "category": "Category",
+    "delete": "Delete",
+    "options": "Options",
+    "edit": "Edit"
   },
 
   "login": {
@@ -746,6 +752,9 @@
   },
 
   "dashboardScreens": {
+    "categories": {
+      "disabled": "DISABLED"
+    },
     "dashboard": {
       "title": "Dashboard",
       "manageRestaurantSettings": "Manage Restaurant Settings",
@@ -1108,7 +1117,6 @@
     "additionalOptionForm": {
       "titleCreate": "Create Option",
       "titleEdit": "Edit Option",
-
       "step1": "Select or Create a Category",
       "selectCategory": "Select a Category",
       "choosePlaceholder": "-- Choose --",
@@ -1147,7 +1155,16 @@
       "cancel": "Cancel",
       "delete": "Delete",
 
-      "warningNoCategory": "⚠️ Please select or create a category first."
+      "warningNoCategory": "⚠️ Please select or create a category first.",
+      "deleteConfirmMessageCascade": "This will also disable all options in this category. Continue?",
+      "successCategoryDeletedCascade": "Category and its options disabled successfully",
+      "warningOptionsDisabled": "All options in this category will be disabled",
+      "statusLabel": "Status",
+      "active": "Active",
+      "disabled": "Disabled",
+      "successOptionDisabled": "Option disabled successfully",
+      "successOptionEnabled": "Option enabled successfully",
+      "disableLabel": "Disable"
     },
 
     "additionalOptionsList": {
@@ -1164,7 +1181,8 @@
       "loadErrorMessage": "Could not load additional options",
       "noMoreOptions": "No more options",
       "noOptionsFound": "No additional options found",
-      "addButtonLabel": "Add new option"
+      "addButtonLabel": "Add new option",
+      "disabled": "Disabled"
     },
 
     "requiredOptions": {

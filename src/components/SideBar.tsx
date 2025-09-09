@@ -12,6 +12,7 @@ import {
   FaSignOutAlt,
   FaGlobe,
   FaFolder,
+  FaBoxes,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/authService";
@@ -28,6 +29,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(false);
   const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
+  const [manageAdditionalOptionsOpen, setManageAdditionalOptionsOpen] =
+    useState(false);
   const toggleManageCategories = () => {
     setManageCategoriesOpen(!manageCategoriesOpen);
   };
@@ -305,7 +308,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               )}
             </AnimatePresence>
           </motion.div>
-        
+
           <motion.div variants={itemVariants}>
             <button
               onClick={toggleManageCategories}
@@ -380,6 +383,84 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
               )}
             </AnimatePresence>
           </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <button
+              onClick={() =>
+                setManageAdditionalOptionsOpen(!manageAdditionalOptionsOpen)
+              }
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400 transition-colors group"
+            >
+              <div className="flex items-center">
+                <FaBoxes className="text-xl mr-3 text-white" />
+                <span className="whitespace-nowrap">
+                  {t("sidebar.manageAdditionalOptions")}
+                </span>
+              </div>
+              <motion.div
+                animate={{ rotate: manageAdditionalOptionsOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </motion.div>
+            </button>
+
+            <AnimatePresence>
+              {manageAdditionalOptionsOpen && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  variants={containerVariants}
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
+                >
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/additional-option-form"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaPlusCircle className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/additional-option-form")}
+                      >
+                        {t("sidebar.addAdditionalOption")}
+                      </span>
+                    </a>
+                  </motion.div>
+
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/additional-options"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaList className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/additional-options")}
+                      >
+                        {t("sidebar.additionalOptionsList")}
+                      </span>
+                    </a>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
           <motion.div variants={itemVariants}>
             <a
               href="/analytics"

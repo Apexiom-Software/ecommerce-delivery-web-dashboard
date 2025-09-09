@@ -31,7 +31,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
     return () => clearTimeout(timer);
   }, []);
 
-
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -71,7 +70,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
         onMouseLeave={() => setIsHovered(false)}
       >
         <div className="relative bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200 hover:shadow-xl transition-all duration-300 h-full flex flex-col">
-         
           {category.isDisabled && (
             <div className="absolute top-3 right-3 z-20 bg-red-600 text-white text-xs font-bold px-2 py-1 rounded-full shadow-md">
               {t("dashboardScreens.categories.disabled")}
@@ -150,8 +148,6 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
 
             <div className="flex items-center justify-between mt-auto">
               <div className="relative z-20 flex gap-2">
-               
-
                 <button
                   type="button"
                   onClick={handleEdit}
@@ -174,29 +170,31 @@ const CategoryCard: React.FC<CategoryCardProps> = ({
                   </svg>
                 </button>
 
-                <button
-                  type="button"
-                  onClick={handleDeleteClick}
-                  className="p-2 rounded-full bg-gray-100 hover:bg-red-50 transition-colors duration-200"
-                  aria-label={t(
-                    "dashboardScreens.productDetails.deleteProduct"
-                  )}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-red-600"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+                {!category.isDisabled && (
+                  <button
+                    type="button"
+                    onClick={handleDeleteClick}
+                    className="p-2 rounded-full bg-gray-100 hover:bg-red-50 transition-colors duration-200"
+                    aria-label={t(
+                      "dashboardScreens.productDetails.deleteProduct"
+                    )}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                    />
-                  </svg>
-                </button>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="h-4 w-4 text-red-600"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                      />
+                    </svg>
+                  </button>
+                )}
               </div>
             </div>
           </div>
