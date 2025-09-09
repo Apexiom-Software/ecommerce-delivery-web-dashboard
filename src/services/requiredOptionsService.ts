@@ -11,6 +11,7 @@ export interface requiredOptionRequest {
 export interface requiredOptionResponse {
   id: number;
   name: string;
+  isDisabled:boolean
 }
 
 export interface PaginatedRequiredOptionResponse {
@@ -46,6 +47,7 @@ export const getRequiredOptionById = async (
       return {
         id: response.data.id,
         name: response.data.name,
+        isDisabled: response.data.isDisabled,
       };
     }
 

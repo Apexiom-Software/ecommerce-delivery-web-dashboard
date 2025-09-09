@@ -13,6 +13,7 @@ import {
   FaGlobe,
   FaFolder,
   FaBoxes,
+  FaAtlassian,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/authService";
@@ -31,6 +32,8 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
   const [manageCategoriesOpen, setManageCategoriesOpen] = useState(false);
   const [manageAdditionalOptionsOpen, setManageAdditionalOptionsOpen] =
     useState(false);
+  const [manageRequiredOptionsOpen, setManageRequiredOptionsOpen] =
+    useState(false);
   const toggleManageCategories = () => {
     setManageCategoriesOpen(!manageCategoriesOpen);
   };
@@ -48,7 +51,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
-    // Sauvegarder la préférence de langue
     localStorage.setItem("preferredLanguage", lng);
   };
 
@@ -63,20 +65,16 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
-  // Bloquer le défilement quand la sidebar est ouverte sur mobile
   useEffect(() => {
     if (isOpen && !isDesktop) {
-      // Sauvegarder la position de défilement actuelle
       const scrollY = window.scrollY;
 
-      // Appliquer les styles pour bloquer le défilement
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
       document.body.style.width = "100%";
       document.body.style.overflow = "hidden";
 
       return () => {
-        // Restaurer le défilement lorsque la sidebar est fermée
         document.body.style.position = "";
         document.body.style.top = "";
         document.body.style.width = "";
@@ -98,7 +96,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     setSettingsOpen(!settingsOpen);
   };
 
-  // Animation variants
   const sidebarVariants: Variants = {
     open: {
       x: 0,
@@ -453,6 +450,84 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                         onClick={() => navigate("/additional-options")}
                       >
                         {t("sidebar.additionalOptionsList")}
+                      </span>
+                    </a>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          {/* Required Options */}
+          <motion.div variants={itemVariants}>
+            <button
+              onClick={() =>
+                setManageRequiredOptionsOpen(!manageRequiredOptionsOpen)
+              }
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400 transition-colors group"
+            >
+              <div className="flex items-center">
+                <FaAtlassian className="text-xl mr-3 text-white" />
+                <span className="whitespace-nowrap">
+                  {t("sidebar.manageRequiredOptions")}
+                </span>
+              </div>
+              <motion.div
+                animate={{ rotate: manageRequiredOptionsOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
+              >
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </motion.div>
+            </button>
+
+            <AnimatePresence>
+              {manageRequiredOptionsOpen && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  variants={containerVariants}
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
+                >
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/required-option-form"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaPlusCircle className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/required-option-form")}
+                      >
+                        {t("sidebar.addRequiredOption")}
+                      </span>
+                    </a>
+                  </motion.div>
+
+                  <motion.div variants={subItemVariants}>
+                    <a
+                      href="/required-options"
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400 transition-colors group"
+                    >
+                      <FaList className="text-lg mr-3 text-white" />
+                      <span
+                        className="whitespace-nowrap"
+                        onClick={() => navigate("/required-options")}
+                      >
+                        {t("sidebar.requiredOptionsList")}
                       </span>
                     </a>
                   </motion.div>

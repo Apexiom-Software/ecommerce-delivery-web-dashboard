@@ -12,6 +12,8 @@ import CreateCategory from "./pages/createCateogory";
 import EditCategory from "./pages/editCategory";
 import AdditionalOptionAndCategoryForm from "./pages/additionalOptionAndCategoryForm";
 import ListAdditionalOptions from "./pages/additionalOptions";
+import ListRequiredOptions from "./pages/requiredOptions";
+import RequiredOptionForm from "./pages/requiredOptionForm";
 
 function App() {
   return (
@@ -77,7 +79,7 @@ function App() {
               </ProtectedRoute>
             }
           />
-         <Route
+          <Route
             path="additional-options"
             element={
               <ProtectedRoute>
@@ -98,6 +100,32 @@ function App() {
             element={
               <ProtectedRoute>
                 <AdditionalOptionAndCategoryForm />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="required-options"
+            element={
+              <ProtectedRoute>
+                <ListRequiredOptions />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="required-option-form"
+            element={
+              <ProtectedRoute>
+                <RequiredOptionForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="required-option-form/:id"
+            element={
+              <ProtectedRoute>
+                <RequiredOptionForm />
               </ProtectedRoute>
             }
           />

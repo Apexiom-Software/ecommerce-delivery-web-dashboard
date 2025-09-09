@@ -14,7 +14,10 @@
     "logout": "Logout",
     "manageAdditionalOptions": "Additional Options",
     "addAdditionalOption": "Additional Option",
-    "additionalOptionsList": "Additional Options"
+    "additionalOptionsList": "Additional Options",
+    "manageRequiredOptions": "Required Options",
+    "addRequiredOption": "Required Option",
+    "requiredOptionsList": "Required Options"
   },
 
   "imageUploader": {
@@ -57,7 +60,8 @@
     "category": "Category",
     "delete": "Delete",
     "options": "Options",
-    "edit": "Edit"
+    "edit": "Edit",
+    "back": "Back"
   },
 
   "login": {
@@ -1217,7 +1221,9 @@
       "errorMessage": "Option could not be saved",
       "successTitle": "Success",
       "createSuccessMessage": "Option created successfully",
-      "updateSuccessMessage": "Option updated successfully"
+      "updateSuccessMessage": "Option updated successfully",
+      "disableOption": "Disable",
+      "disableHelpText": "This option will not be available when disabled"
     },
 
     "wheelGame": {

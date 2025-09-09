@@ -14,7 +14,10 @@
     "logout": "Abmelden",
     "manageAdditionalOptions": "Zusätzliche Optionen",
     "addAdditionalOption": "Zusätzliche Option",
-    "additionalOptionsList": "Zusätzliche Optionen"
+    "additionalOptionsList": "Zusätzliche Optionen",
+    "manageRequiredOptions": "Erforderliche Optionen",
+    "addRequiredOption": "Erforderliche Option",
+    "requiredOptionsList": "Erforderliche Optionen"
   },
   "imageUploader": {
     "previewAlt": "Bildvorschau",
@@ -55,7 +58,8 @@
     "loading": "Wird geladen...",
     "delete": "Löschen",
     "options": "Optionen",
-    "edit": "Bearbeiten"
+    "edit": "Bearbeiten",
+    "back":"Zurück"
   },
   "login": {
     "welcomeBack": "Willkommen zurück",
@@ -1218,7 +1222,9 @@
       "errorMessage": "Option konnte nicht gespeichert werden",
       "successTitle": "Erfolg",
       "createSuccessMessage": "Option erfolgreich erstellt",
-      "updateSuccessMessage": "Option erfolgreich aktualisiert"
+      "updateSuccessMessage": "Option erfolgreich aktualisiert",
+      "disableOption": "Deaktivieren",
+      "disableHelpText": "Diese Option ist deaktiviert und nicht verfügbar."
     },
     "wheelGame": {
       "error": "Fehler",
