@@ -34,7 +34,7 @@ const ListProducts: React.FC = () => {
         const categoriesData = await CategoryService.getCategories();
         const enabledCategories = categoriesData.filter(
           (category) => !category.isDisabled
-        );
+        ); 
         setCategories(enabledCategories);
 
         let response;
