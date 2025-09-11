@@ -1186,7 +1186,8 @@
       "noMoreOptions": "No more options",
       "noOptionsFound": "No additional options found",
       "addButtonLabel": "Add new option",
-      "disabled": "Disabled"
+      "disabled": "Disabled",
+      "addOption":"Add Option"
     },
 
     "requiredOptions": {

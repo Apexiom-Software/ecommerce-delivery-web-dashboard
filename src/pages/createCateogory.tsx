@@ -150,8 +150,8 @@ const CreateCategory: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">
@@ -307,8 +307,8 @@ const CreateCategory: React.FC = () => {
                 disabled={loading}
                 className={`w-full py-3 px-4 rounded-lg text-white font-medium transition-all duration-300 transform hover:scale-[1.02] ${
                   loading
-                    ? "bg-indigo-400 cursor-not-allowed"
-                    : "bg-indigo-600 hover:bg-indigo-700"
+                    ? "bg-gradient-to-r from-indigo-600 to-purple-600 text-white cursor-not-allowed"
+                    : "bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:bg-gradient-to-r hover:from-indigo-700 hover:to-purple-700"
                 }`}
               >
                 {loading ? (

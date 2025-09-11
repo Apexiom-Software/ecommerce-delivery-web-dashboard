@@ -249,8 +249,8 @@ const AdditionalOptionAndCategoryForm: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">
@@ -377,7 +377,20 @@ const AdditionalOptionAndCategoryForm: React.FC = () => {
                             onClick={confirmDeleteCategory}
                             className="p-2 text-red-600 hover:bg-red-50 rounded"
                           >
-                            🗑️
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="h-5 w-5 text-red-600"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                              />
+                            </svg>
                           </button>
                         </>
                       )}
@@ -486,12 +499,12 @@ const AdditionalOptionAndCategoryForm: React.FC = () => {
                         })
                       }
                       className={`relative w-12 h-6 rounded-full transition-colors ${
-                        formData.isDisabled ? "bg-red-500" : "bg-green-500"
+                        formData.isDisabled ? "bg-green-500" : "bg-red-500"
                       }`}
                     >
                       <span
                         className={`absolute top-0.5 w-5 h-5 bg-white rounded-full transition-transform ${
-                          formData.isDisabled ? "left-0.5" : "left-6"
+                          formData.isDisabled ? "right-0.5" : "right-6"
                         }`}
                       />
                     </button>
@@ -519,7 +532,6 @@ const AdditionalOptionAndCategoryForm: React.FC = () => {
           </form>
         </main>
 
-        {/* Modal de confirmation de suppression de catégorie */}
         <ConfirmationModal
           isOpen={showDeleteConfirm}
           onClose={cancelDeleteCategory}

@@ -14,13 +14,13 @@ import AnimatedAlert from "../components/AnimatedAlert";
 import ConfirmationModal from "../components/ConfirmationModal";
 
 const PAGE_SIZE = 8;
+const PAGE_STORAGE_KEY = "requiredOptions_currentPage";
 
 const ListRequiredOptions: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [options, setOptions] = useState<requiredOptionResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -28,6 +28,14 @@ const ListRequiredOptions: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [optionToDelete, setOptionToDelete] = useState<number | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem(PAGE_STORAGE_KEY);
+    return savedPage ? parseInt(savedPage, 10) : 0;
+  });
+
+  useEffect(() => {
+    localStorage.setItem(PAGE_STORAGE_KEY, page.toString());
+  }, [page]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -71,11 +79,21 @@ const ListRequiredOptions: React.FC = () => {
 
     try {
       await deleteRequiredOption(optionToDelete);
-      setOptions(options.filter((opt) => opt.id !== optionToDelete));
+      if (options.length === 1 && page > 0) {
+        setPage(page - 1);
+      } else {
+        const response: PaginatedRequiredOptionResponse =
+          await getAllRequiredOptions(page, PAGE_SIZE);
+        setOptions(response.content);
+        setTotalPages(response.totalPages);
+      }
       showAlertMessage(
         t("common.success"),
         t("dashboardScreens.requiredOptions.deleteSuccess")
       );
+      setTimeout(() => {
+        navigate("/additional-options");
+      }, 2000);
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||
@@ -95,6 +113,12 @@ const ListRequiredOptions: React.FC = () => {
     setShowDeleteConfirm(false);
   };
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem(PAGE_STORAGE_KEY);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 flex-1">
       <div className="fixed top-0 left-0 h-screen z-40 lg:z-auto">
@@ -102,8 +126,8 @@ const ListRequiredOptions: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-4 sticky top-0 z-30 shadow-sm">
@@ -146,7 +170,7 @@ const ListRequiredOptions: React.FC = () => {
 
             <button
               onClick={handleCreateOption}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-lg flex items-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"

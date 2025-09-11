@@ -36,7 +36,7 @@ const AdditionalOptionCard: React.FC<AdditionalOptionCardProps> = ({
               {option.name}
             </h3>
             {option.isDisabled && (
-              <span className="bg-gray-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+              <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
                 {t("dashboardScreens.additionalOptionsList.disabled")}
               </span>
             )}

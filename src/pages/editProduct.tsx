@@ -37,7 +37,6 @@ interface ProductFormData {
   isDisabled: boolean;
 }
 
-
 const EditProduct: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const { t } = useTranslation();
@@ -512,8 +511,8 @@ const EditProduct: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">

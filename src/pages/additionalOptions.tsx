@@ -14,13 +14,19 @@ import AnimatedAlert from "../components/AnimatedAlert";
 import ConfirmationModal from "../components/ConfirmationModal";
 
 const PAGE_SIZE = 8;
+const PAGE_STORAGE_KEY = "additionalOptions_currentPage";
 
 const ListAdditionalOptions: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [options, setOptions] = useState<AdditionalOptionResponse[]>([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
+
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem(PAGE_STORAGE_KEY);
+    return savedPage ? parseInt(savedPage, 10) : 0;
+  });
+
   const [totalPages, setTotalPages] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
@@ -28,6 +34,10 @@ const ListAdditionalOptions: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState("");
   const [optionToDelete, setOptionToDelete] = useState<number | null>(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+
+  useEffect(() => {
+    localStorage.setItem(PAGE_STORAGE_KEY, page.toString());
+  }, [page]);
 
   useEffect(() => {
     const fetchOptions = async () => {
@@ -71,7 +81,16 @@ const ListAdditionalOptions: React.FC = () => {
 
     try {
       await deleteAdditionalOption(optionToDelete);
-      setOptions(options.filter((opt) => opt.id !== optionToDelete));
+
+      if (options.length === 1 && page > 0) {
+        setPage(page - 1);
+      } else {
+        const response: PaginatedAdditionalOptionResponse =
+          await getAllAdditionalOptions(page, PAGE_SIZE);
+        setOptions(response.content);
+        setTotalPages(response.totalPages);
+      }
+
       showAlertMessage(
         t("dashboardScreens.additionalOptionsList.deleteSuccessTitle"),
         t("dashboardScreens.additionalOptionsList.deleteSuccessMessage")
@@ -95,6 +114,12 @@ const ListAdditionalOptions: React.FC = () => {
     setShowDeleteConfirm(false);
   };
 
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem(PAGE_STORAGE_KEY);
+    };
+  }, []);
+
   return (
     <div className="min-h-screen bg-gray-50 flex-1">
       <div className="fixed top-0 left-0 h-screen z-40 lg:z-auto">
@@ -102,8 +127,8 @@ const ListAdditionalOptions: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">
@@ -146,7 +171,7 @@ const ListAdditionalOptions: React.FC = () => {
 
             <button
               onClick={handleCreateOption}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 text-white px-4 py-2 rounded-lg flex items-center"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -201,7 +226,7 @@ const ListAdditionalOptions: React.FC = () => {
               </p>
               <button
                 onClick={handleCreateOption}
-                className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+                className="px-4 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-lg transition-colors text-sm font-medium"
               >
                 {t("dashboardScreens.additionalOptionsList.addOption")}
               </button>
@@ -248,7 +273,6 @@ const ListAdditionalOptions: React.FC = () => {
           )}
         </main>
 
-        {/* Modal de confirmation de suppression */}
         <ConfirmationModal
           isOpen={showDeleteConfirm}
           onClose={cancelDelete}

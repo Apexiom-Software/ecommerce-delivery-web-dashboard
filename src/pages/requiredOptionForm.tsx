@@ -97,7 +97,9 @@ const RequiredOptionForm: React.FC = () => {
           t("dashboardScreens.requiredOptionsForm.createSuccessMessage")
         );
       }
-      navigate("/required-options");
+      setTimeout(() => {
+        navigate("/required-options");
+      }, 2000);
     } catch (error: any) {
       const errorMessage =
         error?.response?.data?.message ||
@@ -116,8 +118,8 @@ const RequiredOptionForm: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-4 sticky top-0 z-30 shadow-sm">
@@ -149,22 +151,7 @@ const RequiredOptionForm: React.FC = () => {
                   onClick={() => navigate(-1)}
                   className="p-2 rounded-lg hover:bg-gray-100 transition-colors mr-2"
                   title={t("common.back")}
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-gray-700"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 19l-7-7 7-7"
-                    />
-                  </svg>
-                </button>
+                ></button>
 
                 <h1 className="text-lg font-semibold text-gray-900">
                   {id
@@ -173,6 +160,13 @@ const RequiredOptionForm: React.FC = () => {
                 </h1>
               </div>
             </div>
+
+            <button
+              onClick={() => navigate("/required-options")}
+              className="text-gray-600 hover:text-gray-800 transition-colors"
+            >
+              {t("common.cancel")}
+            </button>
           </div>
         </header>
 
@@ -227,7 +221,7 @@ const RequiredOptionForm: React.FC = () => {
             <button
               onClick={handleSubmit}
               disabled={loading}
-              className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
+              className="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-2 px-4 rounded-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
             >
               {loading ? (
                 <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>

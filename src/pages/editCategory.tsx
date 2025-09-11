@@ -273,8 +273,8 @@ const EditCategory: React.FC = () => {
         </div>
 
         <div
-          className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-            sidebarOpen ? "ml-64" : "ml-0"
+          className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+            sidebarOpen ? "ml-72" : "ml-0"
           }`}
         >
           <main className="flex-1 overflow-auto p-4 md:p-6 flex items-center justify-center min-h-screen absolute inset-0">
@@ -297,8 +297,8 @@ const EditCategory: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">

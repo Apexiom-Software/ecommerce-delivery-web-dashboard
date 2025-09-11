@@ -9,6 +9,7 @@ import Sidebar from "../components/SideBar";
 import { useTranslation } from "react-i18next";
 
 const PAGE_SIZE = 8;
+const PAGE_STORAGE_KEY = "products_currentPage";
 
 const ListProducts: React.FC = () => {
   const { t } = useTranslation();
@@ -17,9 +18,13 @@ const ListProducts: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem(PAGE_STORAGE_KEY);
+    return savedPage ? parseInt(savedPage, 10) : 0;
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -27,7 +32,10 @@ const ListProducts: React.FC = () => {
         setLoading(true);
 
         const categoriesData = await CategoryService.getCategories();
-        setCategories(categoriesData);
+        const enabledCategories = categoriesData.filter(
+          (category) => !category.isDisabled
+        );
+        setCategories(enabledCategories);
 
         let response;
         if (selectedCategory === null) {
@@ -52,9 +60,16 @@ const ListProducts: React.FC = () => {
     fetchData();
   }, [selectedCategory, page, t]);
 
+  // Sauvegarder la page actuelle dans le localStorage à chaque changement
+  useEffect(() => {
+    localStorage.setItem(PAGE_STORAGE_KEY, page.toString());
+  }, [page]);
+
   const handleCategorySelect = (categoryId: number | null) => {
     setSelectedCategory(categoryId);
     setPage(0);
+    // Sauvegarder aussi la réinitialisation à la page 0
+    localStorage.setItem(PAGE_STORAGE_KEY, "0");
   };
 
   if (showSearch) {
@@ -68,8 +83,8 @@ const ListProducts: React.FC = () => {
       </div>
 
       <div
-        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-64 ${
-          sidebarOpen ? "ml-64" : "ml-0"
+        className={`flex-1 flex flex-col transition-all duration-300 lg:ml-72 ${
+          sidebarOpen ? "ml-72" : "ml-0"
         }`}
       >
         <header className="bg-white border-b border-gray-200 p-3 sticky top-0 z-30 shadow-sm">

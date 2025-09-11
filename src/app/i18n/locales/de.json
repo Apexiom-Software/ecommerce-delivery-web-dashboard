@@ -59,7 +59,7 @@
     "delete": "Löschen",
     "options": "Optionen",
     "edit": "Bearbeiten",
-    "back":"Zurück"
+    "back": "Zurück"
   },
   "login": {
     "welcomeBack": "Willkommen zurück",
@@ -1188,7 +1188,8 @@
       "noMoreOptions": "Keine weiteren Optionen",
       "noOptionsFound": "Keine zusätzlichen Optionen gefunden",
       "addButtonLabel": "Neue Option hinzufügen",
-      "disabled": "Deaktiviert"
+      "disabled": "Deaktiviert",
+      "addOption": "Option hinzufügen"
     },
 
     "requiredOptions": {
