@@ -17,7 +17,11 @@
     "additionalOptionsList": "Additional Options",
     "manageRequiredOptions": "Required Options",
     "addRequiredOption": "Required Option",
-    "requiredOptionsList": "Required Options"
+    "requiredOptionsList": "Required Options",
+    "managePromotions": "Manage Promotions",
+    "addPromotion": "Add Promotion",
+    "promotionsList": "Promotions",
+    "reels": "Reels"
   },
 
   "imageUploader": {
@@ -61,7 +65,18 @@
     "delete": "Delete",
     "options": "Options",
     "edit": "Edit",
-    "back": "Back"
+    "back": "Back",
+    "openMenu": "Open menu",
+    "orders": "Orders",
+    "promotion": "Promotion",
+    "promotions": "Promotions",
+    "processing": "Processing",
+    "previous": "Previous",
+    "next": "Next",
+    "video": "Video",
+    "videos": "Videos",
+    "complete": "Complete",
+    "change": "Change"
   },
 
   "login": {
@@ -701,14 +716,15 @@
           "avgOrderValue": "Avg Order Value",
           "customRevenue": "Custom Revenue"
         },
-        "datePickers": {
-          "year": "Year"
-        },
+
         "orderStatus": "Order Status",
         "statuses": {
           "DELIVERED": "Delivered",
           "FAILED": "Failed",
-          "CANCELLED": "Cancelled"
+          "CANCELLED": "Cancelled",
+          "ON_THE_WAY": "On the way",
+          "ACCEPTED": "Accepted",
+          "PAID": "Paid"
         },
         "topCustomers": "Top Customers",
         "noCustomerData": "No customer data",
@@ -717,7 +733,17 @@
         "salesByHour": "Sales by Hour",
         "noDataFor": "No data available for : ",
         "salesByWeek": "Sales by Week",
-        "noDataForWeek": "No data for week of "
+        "noDataForWeek": "No data for week of ",
+        "datePickers": {
+          "selectDate": "Select Date",
+          "selectWeek": "Select Week",
+          "selectMonth": "Select Month",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "year": "Year"
+        },
+        "revenue": "Revenue",
+        "orders": "Orders"
       }
     },
     "tracking": {
@@ -756,6 +782,33 @@
   },
 
   "dashboardScreens": {
+    "promotions": {
+      "validityPeriod": "Validity Period",
+      "from": "From",
+      "to": "To",
+      "promotionDetails": "Promotion Details",
+      "percentageDiscount": "Percentage discount",
+      "fixedDiscount": "Fixed discount",
+      "off": "off",
+      "noDiscounts": "No discounts available",
+      "title": "Manage Promotions",
+      "addPromotion": "Add Promotion",
+      "loadError": "Failed to load promotions",
+      "deleteSuccess": "Promotion deleted successfully",
+      "deleteError": "Failed to delete promotion",
+      "noPromotions": "No promotions found",
+      "noPromotionsContext": "Get started by creating your first promotion",
+      "createFirst": "Create First Promotion",
+      "active": "Active",
+      "inactive": "Inactive",
+      "code": "Code",
+      "discount": "Discount",
+      "freeItem": "Free Item",
+      "validFrom": "Valid From",
+      "validUntil": "Valid Until",
+      "deletePromotion": "Delete Promotion",
+      "deleteMessage": "Are you sure you want to delete this promotion?"
+    },
     "categories": {
       "disabled": "DISABLED"
     },
@@ -861,10 +914,13 @@
     },
 
     "manageReels": {
+      "title": "Manage Reels",
       "pickVideo": "Tap to select a video",
       "reelTitle": "Reel Title *",
       "titlePlaceholder": "Enter reel title",
-      "publish": "Publish",
+      "upload": "Upload",
+      "uploadNew": "Upload New Video",
+      "uploading": "Uploading...",
       "yourReels": "Your Reels",
       "noVideos": "No videos found",
       "titleRequired": "Title is required",
@@ -874,7 +930,13 @@
       "publishFailed": "Failed to publish video",
       "loadFailed": "Failed to load videos from server",
       "permissionDenied": "Permission denied",
-      "permissionMessage": "Media library access is required"
+      "permissionMessage": "Media library access is required",
+      "deleteTitle": "Confirm Deletion",
+      "deleteMessage": "Are you sure you want to delete this video?",
+      "deleteSuccess": "Video deleted successfully",
+      "deleteFailed": "Failed to delete video",
+      "videoOnly": "Only video files allowed",
+      "fileTooLarge": "File is too large"
     },
     "createProduct": {
       "title": "New Product",
@@ -1068,12 +1130,41 @@
     },
 
     "createPromotion": {
+      "namePlaceholder": "Promotion Name *",
+      "codePlaceholder": "Promotion Code *",
+      "title": "Create New Promotion",
+      "subtitle": "Set up special offers and discounts for your customers",
+      "updatePromotionTitle": "Update Promotion",
+      "basicInfo": "Basic Informations",
+      "datesLabel": "Dates",
+      "fromLabel": "From",
+      "toLabel": "To",
+      "activeLabel": "Active",
+      "conditionsLabel": "Conditions & Discounts",
+      "applyLabel": "Apply promotion to",
+      "chooseCondition": "Choose a condition",
+      "selectProduct": "Select Product",
+      "selectCategories": "Select Categories",
+      "selectCategoryTitle": "Select Category",
+      "minimumCartValuePlaceholder": "Minimum Cart Value",
+      "addSectionTitle": "Add discount",
+      "selectDiscountTypePlaceholder": "Select discount type",
+      "discountAmountPlaceholder": "Discount Amount",
+      "discountPercentagePlaceholder": "Discount Percentage (1-99)",
+      "freeItemProductPlaceholder": "Select Product",
+      "freeItemQuantityPlaceholder": "Number of free items",
+      "addPairButton": "Add Condition & Discount Pair",
+      "imageLabel": "Promotion Image",
+      "submitButton": "Save Promotion",
+      "addNewCondition": "Add New Condition",
+      "selectProductPlaceholder": "Select a product",
+      "selectCategoriesPlaceholder": "Select categories",
       "errorTitle": "Error",
       "successTitle": "Success",
       "loadingError": "Failed to load data",
       "selectWhereDiscountApplies": "Please select where should this discount apply",
       "selectDiscountType": "Please select a discount type",
-      "selectProduct": "Please select a product",
+      "selectProductError": "Please select a product",
       "selectCategory": "Please select at least one category",
       "enterMinCartValue": "Please enter how much should the customer spend to get this deal?",
       "invalidChoice": "Invalid choice",
@@ -1091,31 +1182,7 @@
       "promotionCreated": "Promotion created successfully",
       "promotionCreationFailed": "Failed to create promotion",
       "promotionUpdated": "Promotion updated successfully",
-      "promotionUpdateFailed": "Failed to update promotion",
-      "updatePromotionTitle": "Update Promotion",
-      "selectCategoryTitle": "Select Category",
-      "title": "Create New Promotion",
-      "namePlaceholder": "Promotion Name *",
-      "codePlaceholder": "Promotion Code *",
-      "datesLabel": "Dates",
-      "fromLabel": "From *",
-      "toLabel": "To *",
-      "activeLabel": "Active:",
-      "conditionsLabel": "Conditions & Discounts",
-      "applyLabel": "Apply promotion to *",
-      "chooseCondition": "Choose a condition",
-      "selectProductPlaceholder": "Select Product",
-      "selectCategoriesPlaceholder": "Select Categories",
-      "minimumCartValuePlaceholder": "Minimum Cart Value",
-      "addSectionTitle": "Add discount",
-      "selectDiscountTypePlaceholder": "Select discount type",
-      "discountAmountPlaceholder": "Discount Amount",
-      "discountPercentagePlaceholder": "Discount Percentage (1-99)",
-      "freeItemProductPlaceholder": "Select Product",
-      "freeItemQuantityPlaceholder": "Number of free items",
-      "addPairButton": "Add Condition & Discount Pair",
-      "imageLabel": "Promotion Image",
-      "submitButton": "Save changes"
+      "promotionUpdateFailed": "Failed to update promotion"
     },
 
     "additionalOptionForm": {
@@ -1187,7 +1254,7 @@
       "noOptionsFound": "No additional options found",
       "addButtonLabel": "Add new option",
       "disabled": "Disabled",
-      "addOption":"Add Option"
+      "addOption": "Add Option"
     },
 
     "requiredOptions": {
@@ -1284,7 +1351,8 @@
       "cashOnDelivery": "Cash on Delivery",
       "onlinePayment": "Online Payment",
       "unknown": "Unknown",
-      "totalAmountPrefix": "Total amount: €"
+      "totalAmountPrefix": "Total amount: €",
+      "generatePdf": "Generate PDF"
     },
 
     "ui": {

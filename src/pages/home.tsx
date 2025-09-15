@@ -147,7 +147,7 @@ export default function Home() {
             className="bg-black/30 backdrop-blur-md text-white px-3 py-1 rounded-lg border border-white/40 focus:outline-none focus:ring-2 focus:ring-orange-500"
           >
             <option value="DE">DE</option>
-            <option value="ENG">ENG</option>
+            <option value="ENG">EN</option>
           </select>
         </div>
         <motion.div

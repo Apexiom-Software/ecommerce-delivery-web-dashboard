@@ -14,6 +14,7 @@ import {
   FaFolder,
   FaBoxes,
   FaAtlassian,
+  FaVideo,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/authService";
@@ -32,6 +33,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
     useState(false);
   const [manageRequiredOptionsOpen, setManageRequiredOptionsOpen] =
     useState(false);
+  const [managePromotionsOpen, setManagePromotionsOpen] = useState(false);
 
   const navigate = useNavigate();
   const [isDesktop, setIsDesktop] = useState(false);
@@ -61,6 +63,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
 
   useEffect(() => {
     if (isOpen && !isDesktop) {
+      // Sauvegarder la position de défilement actuelle
       const scrollY = window.scrollY;
       document.body.style.position = "fixed";
       document.body.style.top = `-${scrollY}px`;
@@ -68,13 +71,46 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
       document.body.style.overflow = "hidden";
 
       return () => {
+        // Restaurer le scroll quand le sidebar se ferme
+        const scrollY = document.body.style.top;
         document.body.style.position = "";
         document.body.style.top = "";
         document.body.style.width = "";
         document.body.style.overflow = "";
-        window.scrollTo(0, scrollY);
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
       };
     }
+  }, [isOpen, isDesktop]);
+
+  // Empêcher le scroll dans la sidebar elle-même
+  useEffect(() => {
+    const handleSidebarScroll = (e: Event) => {
+      if (!isDesktop && isOpen) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    };
+
+    const sidebar = document.querySelector(".sidebar-container");
+    if (sidebar) {
+      sidebar.addEventListener("scroll", handleSidebarScroll, {
+        passive: false,
+      });
+      sidebar.addEventListener("touchmove", handleSidebarScroll, {
+        passive: false,
+      });
+      sidebar.addEventListener("wheel", handleSidebarScroll, {
+        passive: false,
+      });
+    }
+
+    return () => {
+      if (sidebar) {
+        sidebar.removeEventListener("scroll", handleSidebarScroll);
+        sidebar.removeEventListener("touchmove", handleSidebarScroll);
+        sidebar.removeEventListener("wheel", handleSidebarScroll);
+      }
+    };
   }, [isOpen, isDesktop]);
 
   const sidebarVariants: Variants = {
@@ -125,7 +161,11 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         initial={false}
         animate={getAnimationState()}
         variants={sidebarVariants}
-        className="fixed lg:static top-0 left-0 h-screen w-72 text-white bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-hidden flex flex-col justify-between z-50"
+        className="sidebar-container fixed lg:static top-0 left-0 h-screen w-72 text-white bg-gradient-to-br from-orange-500 via-yellow-500 to-orange-600 overflow-hidden flex flex-col justify-between z-50"
+        style={{
+          overflowY: isOpen && !isDesktop ? "hidden" : "auto",
+          touchAction: isOpen && !isDesktop ? "none" : "auto",
+        }}
       >
         <div className="flex-shrink-0 flex items-center justify-between p-4 border-b border-orange-400">
           <motion.div
@@ -147,6 +187,15 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
         </div>
 
         <div className="flex-1 p-4 space-y-2 overflow-y-auto lg:overflow-visible">
+          <motion.div variants={itemVariants}>
+            <button
+              onClick={() => navigate("/analytics")}
+              className="flex w-full p-3 rounded-lg hover:bg-orange-400"
+            >
+              <FaChartBar className="text-xl mr-3 text-white" />{" "}
+              {t("sidebar.analytics")}
+            </button>
+          </motion.div>
           <motion.div variants={itemVariants}>
             <button
               onClick={() => setManageProductsOpen(!manageProductsOpen)}
@@ -383,13 +432,71 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             </AnimatePresence>
           </motion.div>
 
+          {/* promotions */}
           <motion.div variants={itemVariants}>
             <button
-              onClick={() => navigate("/analytics")}
-              className="flex items-center p-3 rounded-lg hover:bg-orange-400"
+              onClick={() => setManagePromotionsOpen(!managePromotionsOpen)}
+              className="flex items-center justify-between w-full p-3 rounded-lg hover:bg-orange-400"
             >
-              <FaChartBar className="text-xl mr-3 text-white" />{" "}
-              {t("sidebar.analytics")}
+              <div className="flex items-center">
+                <FaAtlassian className="text-xl mr-3 text-white" />
+                <span>{t("sidebar.managePromotions")}</span>
+              </div>
+              <motion.div animate={{ rotate: managePromotionsOpen ? 180 : 0 }}>
+                <svg
+                  className="w-4 h-4 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+              </motion.div>
+            </button>
+            <AnimatePresence>
+              {managePromotionsOpen && (
+                <motion.div
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                  variants={containerVariants}
+                  className="ml-6 mt-1 space-y-1 border-l-2 border-orange-300 pl-2"
+                >
+                  <motion.div variants={subItemVariants}>
+                    <button
+                      onClick={() => navigate("/create-promotion")}
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400"
+                    >
+                      <FaPlusCircle className="text-lg mr-3 text-white" />{" "}
+                      {t("sidebar.addPromotion")}
+                    </button>
+                  </motion.div>
+                  <motion.div variants={subItemVariants}>
+                    <button
+                      onClick={() => navigate("/promotions")}
+                      className="flex items-center p-2 rounded-lg hover:bg-orange-400"
+                    >
+                      <FaList className="text-lg mr-3 text-white" />{" "}
+                      {t("sidebar.promotionsList")}
+                    </button>
+                  </motion.div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
+            <button
+              onClick={() => navigate("/reels")}
+              className="flex items-center w-full p-3 rounded-lg hover:bg-orange-400"
+            >
+              <FaVideo className="text-xl mr-3 text-white" />
+              <span>{t("sidebar.reels")}</span>
             </button>
           </motion.div>
 
@@ -479,7 +586,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
           <motion.div variants={itemVariants}>
             <button
               onClick={() => navigate("/profile")}
-              className="flex items-center p-3 rounded-lg hover:bg-orange-400"
+              className="flex w-full p-3 rounded-lg hover:bg-orange-400"
             >
               <FaUser className="text-xl mr-3 text-white" />{" "}
               {t("sidebar.profile")}

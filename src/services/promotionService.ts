@@ -37,7 +37,6 @@ export interface CategoryRuleValue {
   categoryName?: string;
 }
 
-
 export interface FreeItemActionValue {
   productId: number;
   productName?: string;
@@ -48,14 +47,14 @@ export interface Rule {
   id?: number;
   ruleType: "PRODUCT" | "CATEGORY" | "CART_VALUE";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ruleValue: any
+  ruleValue: any;
 }
 
 export interface Action {
   id?: number;
   actionType: "PERCENT_OFF" | "FIXED_OFF" | "FREE_ITEM";
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  actionValue:any
+  actionValue: any;
 }
 
 export const PromotionService = {
@@ -94,6 +93,7 @@ export const PromotionService = {
           },
         }
       );
+    
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

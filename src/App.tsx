@@ -14,6 +14,11 @@ import AdditionalOptionAndCategoryForm from "./pages/additionalOptionAndCategory
 import ListAdditionalOptions from "./pages/additionalOptions";
 import ListRequiredOptions from "./pages/requiredOptions";
 import RequiredOptionForm from "./pages/requiredOptionForm";
+import Analytics from "./pages/analytics";
+import CreatePromotion from "./pages/createPromotion";
+import UpdatePromotion from "./pages/updatePromotion";
+import ListPromotions from "./pages/promotions";
+import ManageReels from "./pages/manageReels";
 
 function App() {
   return (
@@ -126,6 +131,48 @@ function App() {
             element={
               <ProtectedRoute>
                 <RequiredOptionForm />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="analytics"
+            element={
+              <ProtectedRoute>
+                <Analytics />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="promotions"
+            element={
+              <ProtectedRoute>
+                <ListPromotions />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="create-promotion"
+            element={
+              <ProtectedRoute>
+                <CreatePromotion />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="update-promotion/:id"
+            element={
+              <ProtectedRoute>
+                <UpdatePromotion />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="reels"
+            element={
+              <ProtectedRoute>
+                <ManageReels />
               </ProtectedRoute>
             }
           />
