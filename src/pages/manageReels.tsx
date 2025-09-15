@@ -9,6 +9,7 @@ import {
   FiChevronLeft,
   FiCheck,
   FiX,
+  FiArrowLeft,
 } from "react-icons/fi";
 import { FaCloudUploadAlt } from "react-icons/fa";
 import ConfirmationModal from "../components/ConfirmationModal";
@@ -288,7 +289,7 @@ const ManageReels: React.FC = () => {
                   className="p-2 rounded-full bg-white shadow-lg hover:shadow-xl transition-all duration-300 hover:bg-gray-50 mr-2"
                   aria-label={t("common.back")}
                 >
-                  <FiChevronLeft className="w-5 h-5 text-gray-700" />
+                  <FiArrowLeft className="w-5 h-5 text-gray-700" />
                 </button>
                 <h1 className="text-lg font-semibold text-gray-900 whitespace-nowrap overflow-hidden text-ellipsis max-w-[120px] md:max-w-none mr-2">
                   {t("dashboardScreens.manageReels.title")}

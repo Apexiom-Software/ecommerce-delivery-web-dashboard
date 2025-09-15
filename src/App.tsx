@@ -19,6 +19,7 @@ import CreatePromotion from "./pages/createPromotion";
 import UpdatePromotion from "./pages/updatePromotion";
 import ListPromotions from "./pages/promotions";
 import ManageReels from "./pages/manageReels";
+import ManageGame from "./pages/game";
 
 function App() {
   return (
@@ -173,6 +174,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <ManageReels />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="game"
+            element={
+              <ProtectedRoute>
+                <ManageGame />
               </ProtectedRoute>
             }
           />

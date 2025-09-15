@@ -21,7 +21,8 @@
     "managePromotions": "Manage Promotions",
     "addPromotion": "Add Promotion",
     "promotionsList": "Promotions",
-    "reels": "Reels"
+    "reels": "Reels",
+    "game": "Game"
   },
 
   "imageUploader": {
@@ -910,7 +911,11 @@
         "maxProductsTitle": "Limit reached",
         "maxProductsMessage": "You can select a maximum of 4 products."
       },
-      "productLimit": "Selected products: {{count}}/{{max}}"
+      "productLimit": "Selected products: {{count}}/{{max}}",
+      "configExists": "Existing configuration",
+      "newConfig": "New configuration",
+      "gameConfiguration": "Game Configuration",
+      "productsSelection": "Select Products"
     },
 
     "manageReels": {

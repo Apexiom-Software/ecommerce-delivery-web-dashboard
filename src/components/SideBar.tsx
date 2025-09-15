@@ -15,6 +15,7 @@ import {
   FaBoxes,
   FaAtlassian,
   FaVideo,
+  FaGamepad,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { logOut } from "../services/authService";
@@ -497,6 +498,16 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             >
               <FaVideo className="text-xl mr-3 text-white" />
               <span>{t("sidebar.reels")}</span>
+            </button>
+          </motion.div>
+
+            <motion.div variants={itemVariants}>
+            <button
+              onClick={() => navigate("/game")}
+              className="flex items-center w-full p-3 rounded-lg hover:bg-orange-400"
+            >
+              <FaGamepad className="text-xl mr-3 text-white" />
+              <span>{t("sidebar.game")}</span>
             </button>
           </motion.div>
 

@@ -21,8 +21,8 @@
     "managePromotions": "Aktionen verwalten",
     "addPromotion": "Aktion hinzufügen",
     "promotionsList": "Aktionen",
-    "reels": "Kurzvideos"
-   
+    "reels": "Kurzvideos",
+    "game": "Spiel"
   },
   "imageUploader": {
     "previewAlt": "Bildvorschau",
@@ -911,7 +911,11 @@
         "maxProductsTitle": "Limit erreicht",
         "maxProductsMessage": "Sie können maximal 4 Produkte auswählen."
       },
-      "productLimit": "Ausgewählte Produkte: {{count}}/{{max}}"
+      "productLimit": "Ausgewählte Produkte: {{count}}/{{max}}",
+      "configExists": "Vorhandene Konfiguration",
+      "newConfig": "Neue Konfiguration",
+      "gameConfiguration": "Spielkonfiguration",
+      "productsSelection": "Produkte auswählen"
     },
 
     "manageReels": {
