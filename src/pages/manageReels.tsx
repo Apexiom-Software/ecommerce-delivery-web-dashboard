@@ -6,7 +6,6 @@ import {
   FiUploadCloud,
   FiPlay,
   FiTrash2,
-  FiChevronLeft,
   FiCheck,
   FiX,
   FiArrowLeft,
