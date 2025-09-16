@@ -79,7 +79,10 @@
     "change": "Ändern"
   },
   "login": {
+    "notice": "Impressum",
     "welcomeBack": "Willkommen zurück",
+    "emailRequired": "E-Mail ist erforderlich",
+    "passwordRequired": "Passwort ist erforderlich",
     "signInToAccessAccount": "Melden Sie sich an, um auf Ihr Konto zuzugreifen",
     "emailPlaceholder": "Ihre E-Mail-Adresse",
     "emailTitle": "E-Mail",

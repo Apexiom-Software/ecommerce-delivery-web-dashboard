@@ -81,7 +81,10 @@
   },
 
   "login": {
+    "notice": "Legal Notice",
     "welcomeBack": "Welcome back",
+    "emailRequired": "Email is required",
+    "passwordRequired": "Password is required",
     "signInToAccessAccount": "Sign in to access your account",
     "emailPlaceholder": "Your email address",
     "emailTitle": "Email",

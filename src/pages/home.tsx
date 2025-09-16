@@ -3,12 +3,9 @@ import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
   FaStar,
-  FaLock,
-  FaEnvelope,
   FaExclamationTriangle,
-  FaEye,
-  FaEyeSlash,
-  FaHamburger, // Icône de fast-food
+  FaHamburger,
+  FaFire, // Icône de feu pour l'animation
 } from "react-icons/fa";
 import { authenticateUser, whoAmI } from "../services/authService";
 import { useTranslation } from "react-i18next";
@@ -21,7 +18,6 @@ export default function Home() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
   const [language, setLanguage] = useState<"DE" | "ENG">("DE");
   const { t } = useTranslation();
 
@@ -51,6 +47,18 @@ export default function Home() {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+
+    // Validation des champs avec messages traduits
+    if (!email) {
+      setError(t("login.emailRequired", "Email is required"));
+      return;
+    }
+
+    if (!password) {
+      setError(t("login.passwordRequired", "Password is required"));
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -60,7 +68,7 @@ export default function Home() {
         const user = await whoAmI();
 
         if (user.role === "ADMIN") {
-          navigate("/products");
+          navigate("/analytics");
         } else {
           setError(
             t(
@@ -91,6 +99,10 @@ export default function Home() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleImpressumClick = () => {
+    window.open("https://www.apexiom.de/imprint", "_blank");
   };
 
   return (
@@ -202,57 +214,31 @@ export default function Home() {
             </motion.div>
           )}
 
-          <form onSubmit={handleLogin} className="space-y-4 lg:space-y-6">
-            <motion.div
-              initial={{ x: -30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="relative"
-            >
-              <FaEnvelope className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200" />
+          <form
+            onSubmit={handleLogin}
+            className="space-y-4 lg:space-y-6"
+            noValidate
+          >
+            <div className="relative">
               <input
                 type="email"
                 placeholder={t("login.emailPlaceholder", "Email address")}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full rounded-xl border border-orange-300 bg-white/10 py-2 lg:py-3 pl-10 pr-4 text-white placeholder-yellow-100 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/40 outline-none text-sm lg:text-base transition-colors"
-                required
+                className="w-full rounded-xl border border-orange-300 bg-white/10 py-2 lg:py-3 pl-4 pr-4 text-white placeholder-yellow-100 focus:border-orange-400 focus:ring-2 focus:ring-orange-400/40 outline-none text-sm lg:text-base transition-colors"
                 disabled={isLoading}
               />
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ x: 30, opacity: 0 }}
-              animate={{ x: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="relative"
-            >
-              <FaLock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-yellow-200" />
+            <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
+                type="password"
                 placeholder={t("login.passwordPlaceholder", "Password")}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-orange-300 bg-white/10 py-2 lg:py-3 pl-10 pr-10 text-white placeholder-yellow-100 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/40 outline-none text-sm lg:text-base transition-colors"
-                required
+                className="w-full rounded-xl border border-orange-300 bg-white/10 py-2 lg:py-3 pl-4 pr-4 text-white placeholder-yellow-100 focus:border-yellow-400 focus:ring-2 focus:ring-yellow-400/40 outline-none text-sm lg:text-base transition-colors"
                 disabled={isLoading}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 text-yellow-200 hover:text-white transition-colors"
-              >
-                {showPassword ? <FaEyeSlash size={16} /> : <FaEye size={16} />}
-              </button>
-            </motion.div>
-
-            <div className="flex justify-end">
-              <a
-                href="#"
-                className="text-sm text-yellow-100 hover:text-white transition-colors"
-              >
-                {t("login.forgotPassword", "Forgot password?")}
-              </a>
             </div>
 
             <motion.button
@@ -292,44 +278,49 @@ export default function Home() {
             </motion.button>
           </form>
 
-          <div className="my-4 lg:my-6 flex items-center justify-center space-x-4">
-            <div className="h-px w-1/4 bg-orange-300"></div>
-            <span className="text-sm text-yellow-100">
-              {t("login.or", "OR")}
-            </span>
-            <div className="h-px w-1/4 bg-orange-300"></div>
+          {/* Bouton Impressum avec animation de feu à l'extrémité droite */}
+          <div className="mt-6 flex justify-end">
+            <motion.div
+              className="relative inline-block"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Animation de feu circulaire */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                animate={{ rotate: 360 }}
+                transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+              >
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute"
+                    style={{
+                      transform: `rotate(${i * 60}deg) translateX(25px)`,
+                    }}
+                    animate={{
+                      scale: [0.8, 1.2, 0.8],
+                      opacity: [0.5, 1, 0.5],
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: Infinity,
+                      delay: i * 0.2,
+                    }}
+                  >
+                    <FaFire className="text-orange-300" size={10} />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <button
+                onClick={handleImpressumClick}
+                className="relative z-10 text-sm text-yellow-100 hover:text-white transition-colors px-4 py-2 rounded-lg bg-red-700/30 backdrop-blur-sm border border-red-300/30"
+              >
+                {t("login.notice", "Impressum (Legal Notice)")}
+              </button>
+            </motion.div>
           </div>
-
-          <motion.div
-            className="flex flex-col space-y-3 lg:space-y-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center justify-center gap-2 rounded-xl bg-white/20 py-2 lg:py-3 text-white shadow-md hover:bg-white/30 transition text-sm lg:text-base border border-orange-200/30"
-            >
-              <img
-                src="/assets/images/google.svg"
-                alt="Google"
-                className="h-4 w-4 lg:h-5 lg:w-5"
-              />
-              {t("login.signInWithGoogle", "Sign in with Google")}
-            </motion.button>
-
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              className="flex items-center justify-center gap-2 rounded-xl bg-white/20 py-2 lg:py-3 text-white shadow-md hover:bg-white/30 transition text-sm lg:text-base border border-orange-200/30"
-            >
-              <img
-                src="/assets/images/apple.svg"
-                alt="Apple"
-                className="h-4 w-4 lg:h-5 lg:w-5"
-              />
-              {t("login.signInWithApple", "Sign in with Apple")}
-            </motion.button>
-          </motion.div>
         </motion.div>
       </div>
     </div>
