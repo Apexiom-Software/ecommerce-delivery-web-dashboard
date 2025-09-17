@@ -20,6 +20,8 @@ import UpdatePromotion from "./pages/updatePromotion";
 import ListPromotions from "./pages/promotions";
 import ManageReels from "./pages/manageReels";
 import ManageGame from "./pages/game";
+import Impressum from "./pages/impressum";
+import AGB from "./pages/agb";
 
 function App() {
   return (
@@ -186,6 +188,8 @@ function App() {
               </ProtectedRoute>
             }
           />
+          <Route path="impressum" element={<Impressum />} />
+          <Route path="agb" element={<AGB />} />
         </Routes>
       </div>
     </I18nextProvider>

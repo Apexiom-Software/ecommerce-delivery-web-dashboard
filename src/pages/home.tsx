@@ -5,7 +5,8 @@ import {
   FaStar,
   FaExclamationTriangle,
   FaHamburger,
-  FaFire, // Icône de feu pour l'animation
+  FaFire,
+  FaFileContract,
 } from "react-icons/fa";
 import { authenticateUser, whoAmI } from "../services/authService";
 import { useTranslation } from "react-i18next";
@@ -102,7 +103,11 @@ export default function Home() {
   };
 
   const handleImpressumClick = () => {
-    window.open("https://www.apexiom.de/imprint", "_blank");
+    navigate("/impressum");
+  };
+
+  const handleAgbClick = () => {
+    navigate("/agb");
   };
 
   return (
@@ -278,8 +283,9 @@ export default function Home() {
             </motion.button>
           </form>
 
-          {/* Bouton Impressum avec animation de feu à l'extrémité droite */}
-          <div className="mt-6 flex justify-end">
+          {/* Liens vers Impressum et Terms and Conditions */}
+          <div className="mt-6 flex justify-between items-center">
+            {/* Lien Impressum */}
             <motion.div
               className="relative inline-block"
               whileHover={{ scale: 1.05 }}
@@ -315,9 +321,50 @@ export default function Home() {
 
               <button
                 onClick={handleImpressumClick}
-                className="relative z-10 text-sm text-yellow-100 hover:text-white transition-colors px-4 py-2 rounded-lg bg-red-700/30 backdrop-blur-sm border border-red-300/30"
+                className="relative z-10 text-sm text-blue-600 font-semibold hover:text-white transition-colors px-4 py-2 rounded-lg"
               >
                 {t("login.notice", "Impressum (Legal Notice)")}
+              </button>
+            </motion.div>
+
+            <motion.div
+              className="relative inline-block"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              {/* Animation de document circulaire */}
+              <motion.div
+                className="absolute inset-0 flex items-center justify-center"
+                animate={{ rotate: -360 }}
+                transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              >
+                {[...Array(6)].map((_, i) => (
+                  <motion.div
+                    key={i}
+                    className="absolute"
+                    style={{
+                      transform: `rotate(${i * 60}deg) translateX(25px)`,
+                    }}
+                    animate={{
+                      scale: [0.8, 1.2, 0.8],
+                      opacity: [0.5, 1, 0.5],
+                    }}
+                    transition={{
+                      duration: 2,
+                      repeat: Infinity,
+                      delay: i * 0.3,
+                    }}
+                  >
+                    <FaFileContract className="text-blue-300" size={10} />
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <button
+                onClick={handleAgbClick}
+                className="relative z-10 text-sm text-blue-500 font-semibold hover:text-white transition-colors px-4 py-2 rounded-lg"
+              >
+                {t("login.terms", "Terms & Conditions")}
               </button>
             </motion.div>
           </div>

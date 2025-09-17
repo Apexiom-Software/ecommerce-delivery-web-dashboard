@@ -8,7 +8,6 @@ import {
   FaList,
   FaChartBar,
   FaCog,
-  FaUser,
   FaSignOutAlt,
   FaGlobe,
   FaFolder,
@@ -501,7 +500,7 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
             </button>
           </motion.div>
 
-            <motion.div variants={itemVariants}>
+          <motion.div variants={itemVariants}>
             <button
               onClick={() => navigate("/game")}
               className="flex items-center w-full p-3 rounded-lg hover:bg-orange-400"
@@ -592,16 +591,6 @@ export default function Sidebar({ isOpen, setIsOpen }: SidebarProps) {
                 </motion.div>
               )}
             </AnimatePresence>
-          </motion.div>
-
-          <motion.div variants={itemVariants}>
-            <button
-              onClick={() => navigate("/profile")}
-              className="flex w-full p-3 rounded-lg hover:bg-orange-400"
-            >
-              <FaUser className="text-xl mr-3 text-white" />{" "}
-              {t("sidebar.profile")}
-            </button>
           </motion.div>
         </div>
 

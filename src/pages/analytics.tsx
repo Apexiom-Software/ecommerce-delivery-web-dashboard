@@ -229,25 +229,6 @@ export default function Analytics() {
         <main className="flex-1 overflow-auto p-6">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center mb-6">
-              <button
-                onClick={() => window.history.back()}
-                className="mr-4 text-gray-700 hover:text-gray-900"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-6 w-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
               <h1 className="text-2xl font-bold text-gray-800">
                 {t("screens.analyticsScreens.analytics.dashboardOverview")}
               </h1>
